@@ -1,31 +1,58 @@
 const Services = () => {
-  const services = [{
-    number: "01",
-    title: "RESIDENTIAL",
-    description: "Crafting homes that reflect individual lifestyles while maintaining architectural integrity"
-  }, {
-    number: "02",
-    title: "COMMERCIAL",
-    description: "Designing functional spaces that enhance business environments and user experiences"
-  }, {
-    number: "03",
-    title: "RENOVATION",
-    description: "Transforming existing structures with contemporary sensibilities and sustainable practices"
-  }, {
-    number: "04",
-    title: "CONSULTATION",
-    description: "Providing expert guidance on design direction, planning, and architectural solutions"
-  }];
-  return <section id="services" className="py-32 bg-background">
+  const services = [
+    {
+      number: "01",
+      title: "NO-CODE WORKFLOW AUTOMATIONS",
+      description:
+        "Creating seamless, efficient workflows without writing a single line of code, empowering businesses to automate tasks and processes with ease",
+    },
+    {
+      number: "02",
+      title: "API'S, WEBHOOKS, AND INTEGRATIONS",
+      description:
+        "Integrating various APIs, webhooks, and third-party services to create powerful and interconnected AI-driven solutions",
+    },
+    {
+      number: "03",
+      title: "AUTOMATED CONTENT CREATION",
+      description:
+        "Automating the creation of content such as articles, reports, and marketing materials using AI tools and workflows",
+    },
+    {
+      number: "04",
+      title: "LEAD GENERATION SYSTEMS",
+      description:
+        "Creating automated lead generation systems that capture and nurture potential customers through AI-driven strategies",
+    },
+    {
+      number: "05",
+      title: "DATA EXTRACTION & PARSING",
+      description:
+        "Extracting and parsing data from various sources to support AI workflows",
+    },
+    {
+      number: "06",
+      title: "AI-POWERED CHATBOTS",
+      description:
+        "Creating intelligent chatbots powered by AI to enhance customer interactions and support",
+    },
+  ];
+  return (
+    <section id="services" className="py-32 bg-background">
       <div className="container mx-auto px-6">
         <div className="max-w-7xl mx-auto">
           <div className="mb-20">
-            <h2 className="text-minimal text-muted-foreground mb-4">SERVICES</h2>
-            <h3 className="text-4xl md:text-6xl font-light text-architectural">AI Automation Services</h3>
+            <h2 className="text-minimal text-muted-foreground mb-4">
+              SERVICES
+            </h2>
+            <h3 className="text-4xl md:text-6xl font-light text-architectural">
+              AI Automation Services
+            </h3>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-x-20 gap-y-16">
-            {services.map((service, index) => <div key={index} className="group">
+            {services.map((service, index) => (
+              <div key={index} className="group">
                 <div className="flex items-start space-x-6">
                   <span className="text-minimal text-muted-foreground font-medium">
                     {service.number}
@@ -39,10 +66,12 @@ const Services = () => {
                     </p>
                   </div>
                 </div>
-              </div>)}
+              </div>
+            ))}
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
 export default Services;

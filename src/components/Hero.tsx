@@ -1,4 +1,4 @@
-import heroImage from "@/assets/hero-architecture.jpg";
+import heroImage from "@/assets/background-blue-city-1920x1080.png";
 const Hero = () => {
   return <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
@@ -11,8 +11,8 @@ const Hero = () => {
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-light text-white text-architectural mb-8 reveal">AI Showcase<br />
-          ARCHITECTURE
+        <h1 className="text-6xl md:text-8xl lg:text-8xl font-light text-white text-architectural mb-8 reveal"><em>ssmith1975-ai</em><br />
+          AI SHOWCASE
         </h1>
         <p className="text-xl md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto reveal-delayed">Demonstrating my technical capabilities</p>
       </div>
