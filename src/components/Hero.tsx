@@ -1,27 +1,20 @@
 import heroImage from "@/assets/hero-architecture.jpg";
-
 const Hero = () => {
-  return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+  return <section className="relative h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
-      />
+      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
+      backgroundImage: `url(${heroImage})`
+    }} />
       
       {/* Overlay */}
       <div className="absolute inset-0 hero-overlay" />
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-        <h1 className="text-6xl md:text-8xl lg:text-9xl font-light text-white text-architectural mb-8 reveal">
-          MINIMAL
-          <br />
+        <h1 className="text-6xl md:text-8xl lg:text-9xl font-light text-white text-architectural mb-8 reveal">AI Showcase<br />
           ARCHITECTURE
         </h1>
-        <p className="text-xl md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto reveal-delayed">
-          Creating spaces that inspire through thoughtful design and uncompromising quality
-        </p>
+        <p className="text-xl md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto reveal-delayed">Demonstrating my technical capabilities</p>
       </div>
       
       {/* Scroll Indicator */}
@@ -31,8 +24,6 @@ const Hero = () => {
           SCROLL
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
