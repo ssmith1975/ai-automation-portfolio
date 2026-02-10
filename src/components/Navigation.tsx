@@ -15,19 +15,22 @@ const Navigation = () => {
         </div>
         
         <div className="hidden md:flex items-center space-x-12">
+          <a href="/use-cases" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
+            USE CASES
+          </a>
           <a href="/work" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
             WORK
           </a>
-          <a href="/services" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
+          <a href="/#services" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
             SERVICES
           </a>
-          <a href="/about" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
+          <a href="/#about" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
             ABOUT
           </a>
           <a href="/blog" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
             BLOG
           </a>
-          <a href="/contact" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
+          <a href="/#contact" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
             CONTACT
           </a>
         </div>
