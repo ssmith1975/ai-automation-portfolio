@@ -1,27 +1,12 @@
 n8n-demo {
-  /* filter: invert(1) hue-rotate(180deg); */
- --n8n-workflow-min-height: 30rem !important;
+    --n8n-workflow-min-height: 40rem !important;
 }
 
 .n8n-expanded {
     n8n-demo {
 
-    --n8n-workflow-min-height: 600px !important;
+    --n8n-workflow-min-height: 50rem !important;
     }
 }   
-n8n-demo img {
-    /* filter: invert(1) hue-rotate(180deg);  */
-    /* Re-invert images */
-}
 
-@media (min-width: 1024px) {
-    .n8n-expanded {
-        n8n-demo {
-  
-        /* --n8n-workflow-min-height: 600px !important; */
-    }
 
-        
-    
-  }
-}

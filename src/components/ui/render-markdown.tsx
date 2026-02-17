@@ -111,7 +111,7 @@ const RenderMarkdown = ({ line }) => {
       </div>
     );
   } else {
-    return <p className="mt-0mb-0">{line}</p>;
+    return <p className="mt-3 mb-0">{line}</p>;
   }
 };
 

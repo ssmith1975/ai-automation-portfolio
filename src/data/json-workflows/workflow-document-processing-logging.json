@@ -1,0 +1,4385 @@
+{
+  "name": "Document Processing - Logging",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "executionId"
+            },
+            {
+              "name": "errorMessage"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        3632,
+        2240
+      ],
+      "id": "3eec80f0-1747-4c7a-b556-59531df3fff5",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f5d57e8f-183c-48d6-82cb-b98bd2729a87",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "421479b4-c9a0-48f8-bd80-8403e15544db",
+              "name": "startedAt",
+              "value": "={{ $json.startedAt }}",
+              "type": "string"
+            },
+            {
+              "id": "7810f114-31d2-4a8d-9fd0-520a9a9743d2",
+              "name": "stoppedAt",
+              "value": "={{ $json.stoppedAt }}",
+              "type": "string"
+            },
+            {
+              "id": "ee154fd5-7d4e-4a47-a9b2-791b8c354b71",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "4a27e0ac-ba2d-4d9a-b93c-b25c1e26dce3",
+              "name": "errorMessage",
+              "value": "={{ $('When Executed by Another Workflow').item.json.errorMessage }}",
+              "type": "string"
+            },
+            {
+              "id": "97a0a9ce-9329-4d3c-982d-1bd5358d463a",
+              "name": "errorType",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4080,
+        2240
+      ],
+      "id": "ff4135a8-e293-40eb-ae60-07d5b292aba1",
+      "name": "Set Fields"
+    },
+    {
+      "parameters": {
+        "jsCode": "const allInput = $input.all();\nconst result = [];\n// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of allInput) {\n  const {id, startedAt, stoppedAt, status, errorType, errorMessage} = item.json\n  const startTime = DateTime.fromISO(startedAt);\n  const stopTime = DateTime.fromISO(stoppedAt);\n\n  const durationSecs = stopTime.diff(startTime, \"seconds\").seconds;\n  \n  result.push(\n    {\n      json:{\n        \"executionId\": id,  \n        durationSecs,\n        status,\n        errorType,\n        errorMessage \n      }\n    }       \n  );\n}\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4304,
+        2240
+      ],
+      "id": "d191a1d0-b004-4a8f-801a-406a545d05f5",
+      "name": "Process Execution Data"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1t-O6wIS_0AW_RjmE5VH7pN32UCUT5WkXjijXVAnWeaY",
+          "mode": "list",
+          "cachedResultName": "Automation Monitoring Dashboard - Case 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1t-O6wIS_0AW_RjmE5VH7pN32UCUT5WkXjijXVAnWeaY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 242548814,
+          "mode": "list",
+          "cachedResultName": "Run Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1t-O6wIS_0AW_RjmE5VH7pN32UCUT5WkXjijXVAnWeaY/edit#gid=242548814"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $now.toUTC().format('yyyy-MM-dd HH:mm:ss') }}",
+            "status": "={{ $('Process Execution Data').item.json.status }}",
+            "processing_time_sec": "={{ $('Process Execution Data').item.json.durationSecs }}",
+            "error_type": "={{ $json.errorType }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "processing_time_sec",
+              "displayName": "processing_time_sec",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "error_type",
+              "displayName": "error_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        5552,
+        2224
+      ],
+      "id": "f2e2fd6d-74ac-4bf2-bfeb-ab8369632cd4",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vW1keJimX5TFzyu1",
+          "name": "n8n-google-careerist"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "execution",
+        "operation": "get",
+        "executionId": "={{ $json.executionId }}",
+        "options": {
+          "activeWorkflows": true
+        },
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.n8n",
+      "typeVersion": 1,
+      "position": [
+        3856,
+        2240
+      ],
+      "id": "cb405f70-ce93-4d10-b21c-51155e0acaa5",
+      "name": "Get an execution",
+      "credentials": {
+        "n8nApi": {
+          "id": "BsKNYFrdEZPqP3MT",
+          "name": "n8n-account-careerist"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        4832,
+        2592
+      ],
+      "id": "0ed713e0-b908-4168-853c-aa0ef4d601c6",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "Q4AaC0tQNgyGKUCD",
+          "name": "openrouter-account-careerist"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "inputText": "={{ $json?.errorMessage }}",
+        "categories": {
+          "categories": [
+            {
+              "category": "INVALID_DATA",
+              "description": "Error caused by invalid parameters, invalid JSON, or syntax error"
+            },
+            {
+              "category": "AUTH_FAILED",
+              "description": "401 Unauthorized  or 403 Forbidden error caused by invalid  or expired credential, secret, invalid password, failed authentication or authorization such as a bad API key or password"
+            },
+            {
+              "category": "API_TIMEOUT",
+              "description": "504 Gateway timeout caused by API server not responding, "
+            },
+            {
+              "category": "RATE_LIMIT",
+              "description": "429 Too many requests error caused by rate limiting  in API "
+            },
+            {
+              "category": "CONNECTION_ERROR",
+              "description": "Any other type of error connecting to API such as 404 status, 500 status, Bad request , 500 Something went wrong\n503 Service unavailable, Quota exceeded, or ECONNREFUSED\n\n"
+            }
+          ]
+        },
+        "options": {
+          "fallback": "other"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textClassifier",
+      "typeVersion": 1.1,
+      "position": [
+        4752,
+        2240
+      ],
+      "id": "ec99a7a3-031e-4600-8f5d-311f64b8213b",
+      "name": "Error Type Classifier"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5513129e-2e09-4f35-9f41-994d03b058a3",
+              "name": "errorType",
+              "value": "AUTH_FAILED",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5104,
+        1952
+      ],
+      "id": "62c35f22-e2d6-4a50-a6d1-157dfe8b7867",
+      "name": "Set AUTH_FAILED"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5513129e-2e09-4f35-9f41-994d03b058a3",
+              "name": "errorType",
+              "value": "API_TIMEOUT",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5104,
+        2144
+      ],
+      "id": "8fc4691e-8901-429d-91c7-30c696b1df14",
+      "name": "Set API_TIMEOUT"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5513129e-2e09-4f35-9f41-994d03b058a3",
+              "name": "errorType",
+              "value": "CONNECTION_ERROR",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5104,
+        2528
+      ],
+      "id": "b8d0ec66-333c-4eb3-a6e7-2cbdae1cdade",
+      "name": "Set CONNECTION_ERROR"
+    },
+    {
+      "parameters": {
+        "numberInputs": 7
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5328,
+        2144
+      ],
+      "id": "c522e6b1-e4f1-48ad-ae58-6c99487eaf65",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5513129e-2e09-4f35-9f41-994d03b058a3",
+              "name": "errorType",
+              "value": "GENERAL_ERROR",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5104,
+        2720
+      ],
+      "id": "95108526-e1ad-451f-b7d3-b83a67c57fd1",
+      "name": "Set ERROR"
+    },
+    {
+      "parameters": {
+        "content": "# Document Processing - Logging\n## AI Automation\nSamantha Smith\n1/25/2026\n\nThis sub-workflow logs data is triggered by Document Processing  and Document Processing - Error Handling workflows. It extracts the data from the call, calculates durations from start and stop time of the execution, and implements a Text Classifier AI to determine error type. Then the data is written into the spread with a timestamp (UTC) included.     \n\nINPUT: executionID, errorMessage \nOUTPUT: logging data to Run Logs sheett\n* timestamp\n* status\n* processing_time_sec\n* error_type",
+        "height": 512,
+        "width": 576,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3584,
+        1552
+      ],
+      "id": "78cbc6b2-f010-45dd-8c96-c835ec2b1013",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "x",
+        "height": 1408,
+        "width": 2240,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3536,
+        1520
+      ],
+      "id": "3faea699-58bf-439b-b692-b8b1cae40b46",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d0507ca5-ae11-418d-a592-887b85ca4693",
+              "leftValue": "={{ $json.errorMessage }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4528,
+        2240
+      ],
+      "id": "e8ce4581-75a8-4f55-811a-6fefca2451c2",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "errorType",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "6b61b572-dce5-49f9-a6ac-3e74075c17ac",
+      "name": "Set SUCCESS",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5104,
+        1568
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5513129e-2e09-4f35-9f41-994d03b058a3",
+              "name": "errorType",
+              "value": "INVALID_DATA",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5104,
+        1760
+      ],
+      "id": "b047f6e7-044b-4184-9b39-bcfda35e0404",
+      "name": "Set INVALID_DATA"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5513129e-2e09-4f35-9f41-994d03b058a3",
+              "name": "errorType",
+              "value": "RATE_LIMIT",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5104,
+        2336
+      ],
+      "id": "e83227b2-75ec-4640-8f36-301b416b2727",
+      "name": "Set RATE_LIMIT"
+    }
+  ],
+  "pinData": {
+    "Get an execution": [
+      {
+        "json": {
+          "id": "1642",
+          "finished": false,
+          "mode": "manual",
+          "retryOf": null,
+          "retrySuccessId": null,
+          "status": "error",
+          "createdAt": "2026-01-25T03:12:29.572Z",
+          "startedAt": "2026-01-25T03:12:29.678Z",
+          "stoppedAt": "2026-01-25T03:12:29.735Z",
+          "deletedAt": null,
+          "workflowId": "3NvqHzvrSEROyIsr",
+          "waitTill": null,
+          "data": {
+            "version": 1,
+            "startData": {
+              "destinationNode": {
+                "nodeName": "Stop and Error - Get Form fields",
+                "mode": "inclusive"
+              },
+              "runNodeFilter": [
+                "Fillout Trigger",
+                "Get Form fields",
+                "Stop and Error - Get Form fields"
+              ]
+            },
+            "resultData": {
+              "error": {
+                "message": "429 too many API requests",
+                "stack": "SyntaxError: Expected double-quoted property name in JSON at position 106 (line 4 column 1)\n    at JSON.parse (<anonymous>)\n    at jsonParse (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-workflow@file+packages+workflow/node_modules/n8n-workflow/src/utils.ts:146:15)\n    at createErrorFromParameters (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-nodes-base@file+packages+nodes-base_@aws-sdk+credential-providers@3.808.0_asn1.js@5_8da18263ca0574b0db58d4fefd8173ce/node_modules/n8n-nodes-base/nodes/StopAndError/utils.ts:27:32)\n    at ExecuteContext.execute (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-nodes-base@file+packages+nodes-base_@aws-sdk+credential-providers@3.808.0_asn1.js@5_8da18263ca0574b0db58d4fefd8173ce/node_modules/n8n-nodes-base/nodes/StopAndError/StopAndError.node.ts:90:57)\n    at WorkflowExecute.executeNode (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_ec37920eb95917b28efaa783206b20f3/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1045:31)\n    at WorkflowExecute.runNode (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_ec37920eb95917b28efaa783206b20f3/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1226:22)\n    at /usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_ec37920eb95917b28efaa783206b20f3/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1662:38\n    at /usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_ec37920eb95917b28efaa783206b20f3/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:2274:11"
+              },
+              "runData": {
+                "Fillout Trigger": [
+                  {
+                    "startTime": 1769247289212,
+                    "executionIndex": 0,
+                    "source": [],
+                    "hints": [],
+                    "executionTime": 0,
+                    "executionStatus": "success",
+                    "data": {
+                      "main": [
+                        [
+                          {
+                            "json": {
+                              "submissionId": "33e14112-6a3e-4730-a78d-afa7e99a390a",
+                              "submissionTime": "2026-01-21T17:37:38.738Z",
+                              "lastUpdatedAt": "2026-01-21T17:37:38.738Z",
+                              "questions": {
+                                "c4NhzbNUQDndjrviiWedxK": {
+                                  "name": "Company Name",
+                                  "value": "Starter Plan Test.xyz"
+                                },
+                                "aVmqNfy99ndVMzWY3NE5Pk": {
+                                  "name": "Company Website",
+                                  "value": "starter.xyz.com"
+                                },
+                                "i4EpVZ8zGwofnRMkPkRvti": {
+                                  "name": "Industry",
+                                  "value": "Forestry, Fishing  and Hunting"
+                                },
+                                "7bnH7Kr4A7LLWX37Ni3CLJ": {
+                                  "name": "Representative's Name",
+                                  "value": "starter planner test4"
+                                },
+                                "2rqFeFKJthvNj1hnF8dNWw": {
+                                  "name": "Representative's Email",
+                                  "value": "starter@testxyz.com"
+                                },
+                                "9GHB": {
+                                  "name": "Pick your Plan",
+                                  "value": "starter"
+                                },
+                                "kX6z": {
+                                  "name": "I'd like to learn more before deciding. Could your sales team contact me?",
+                                  "value": null
+                                }
+                              },
+                              "calculations": {},
+                              "urlParameters": {},
+                              "quiz": {},
+                              "documents": {},
+                              "scheduling": {},
+                              "payments": {}
+                            },
+                            "pairedItem": {
+                              "item": 0
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                ],
+                "Get Form fields": [
+                  {
+                    "startTime": 1769310742818,
+                    "executionIndex": 1,
+                    "source": [
+                      {
+                        "previousNode": "Fillout Trigger",
+                        "previousNodeOutput": 0,
+                        "previousNodeRun": 0
+                      }
+                    ],
+                    "hints": [],
+                    "executionTime": 1590,
+                    "executionStatus": "success",
+                    "data": {
+                      "main": [
+                        [],
+                        [
+                          {
+                            "json": {
+                              "error": "Invalid email format [line 93]"
+                            },
+                            "pairedItem": {
+                              "item": 0
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                ],
+                "Stop and Error - Get Form fields": [
+                  {
+                    "startTime": 1769310749702,
+                    "executionIndex": 2,
+                    "source": [
+                      {
+                        "previousNode": "Get Form fields",
+                        "previousNodeOutput": 1,
+                        "previousNodeRun": 0
+                      }
+                    ],
+                    "hints": [],
+                    "executionTime": 32,
+                    "executionStatus": "error",
+                    "error": {
+                      "message": "Expected double-quoted property name in JSON at position 106 (line 4 column 1)",
+                      "stack": "SyntaxError: Expected double-quoted property name in JSON at position 106 (line 4 column 1)\n    at JSON.parse (<anonymous>)\n    at jsonParse (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-workflow@file+packages+workflow/node_modules/n8n-workflow/src/utils.ts:146:15)\n    at createErrorFromParameters (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-nodes-base@file+packages+nodes-base_@aws-sdk+credential-providers@3.808.0_asn1.js@5_8da18263ca0574b0db58d4fefd8173ce/node_modules/n8n-nodes-base/nodes/StopAndError/utils.ts:27:32)\n    at ExecuteContext.execute (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-nodes-base@file+packages+nodes-base_@aws-sdk+credential-providers@3.808.0_asn1.js@5_8da18263ca0574b0db58d4fefd8173ce/node_modules/n8n-nodes-base/nodes/StopAndError/StopAndError.node.ts:90:57)\n    at WorkflowExecute.executeNode (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_ec37920eb95917b28efaa783206b20f3/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1045:31)\n    at WorkflowExecute.runNode (/usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_ec37920eb95917b28efaa783206b20f3/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1226:22)\n    at /usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_ec37920eb95917b28efaa783206b20f3/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:1662:38\n    at /usr/local/lib/node_modules/n8n/node_modules/.pnpm/n8n-core@file+packages+core_@opentelemetry+api@1.9.0_@opentelemetry+sdk-trace-base@1.30_ec37920eb95917b28efaa783206b20f3/node_modules/n8n-core/src/execution-engine/workflow-execute.ts:2274:11"
+                    }
+                  }
+                ]
+              },
+              "pinData": {
+                "Fillout Trigger": [
+                  {
+                    "json": {
+                      "submissionId": "33e14112-6a3e-4730-a78d-afa7e99a390a",
+                      "submissionTime": "2026-01-21T17:37:38.738Z",
+                      "lastUpdatedAt": "2026-01-21T17:37:38.738Z",
+                      "questions": {
+                        "c4NhzbNUQDndjrviiWedxK": {
+                          "name": "Company Name",
+                          "value": "Starter Plan Test.xyz"
+                        },
+                        "aVmqNfy99ndVMzWY3NE5Pk": {
+                          "name": "Company Website",
+                          "value": "starter.xyz.com"
+                        },
+                        "i4EpVZ8zGwofnRMkPkRvti": {
+                          "name": "Industry",
+                          "value": "Forestry, Fishing  and Hunting"
+                        },
+                        "7bnH7Kr4A7LLWX37Ni3CLJ": {
+                          "name": "Representative's Name",
+                          "value": "starter planner test4"
+                        },
+                        "2rqFeFKJthvNj1hnF8dNWw": {
+                          "name": "Representative's Email",
+                          "value": "starter@testxyz.com"
+                        },
+                        "9GHB": {
+                          "name": "Pick your Plan",
+                          "value": "starter"
+                        },
+                        "kX6z": {
+                          "name": "I'd like to learn more before deciding. Could your sales team contact me?",
+                          "value": null
+                        }
+                      },
+                      "calculations": {},
+                      "urlParameters": {},
+                      "quiz": {},
+                      "documents": {},
+                      "scheduling": {},
+                      "payments": {}
+                    }
+                  }
+                ]
+              },
+              "lastNodeExecuted": "Stop and Error - Get Form fields"
+            },
+            "executionData": {
+              "contextData": {},
+              "nodeExecutionStack": [
+                {
+                  "node": {
+                    "parameters": {
+                      "errorType": "errorObject",
+                      "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\",\n}"
+                    },
+                    "type": "n8n-nodes-base.stopAndError",
+                    "typeVersion": 1,
+                    "position": [
+                      -656,
+                      736
+                    ],
+                    "id": "22f96d1c-ca7b-42bb-abf3-f87bd22a899f",
+                    "name": "Stop and Error - Get Form fields"
+                  },
+                  "data": {
+                    "main": [
+                      [
+                        {
+                          "json": {
+                            "error": "Invalid email format [line 93]"
+                          },
+                          "pairedItem": {
+                            "item": 0
+                          }
+                        }
+                      ]
+                    ]
+                  },
+                  "source": {
+                    "main": [
+                      {
+                        "previousNode": "Get Form fields",
+                        "previousNodeOutput": 1,
+                        "previousNodeRun": 0
+                      }
+                    ]
+                  }
+                }
+              ],
+              "metadata": {},
+              "waitingExecution": {},
+              "waitingExecutionSource": {},
+              "runtimeData": {
+                "version": 1,
+                "establishedAt": 1769310749701,
+                "source": "manual"
+              }
+            }
+          },
+          "workflowData": {
+            "id": "3NvqHzvrSEROyIsr",
+            "name": "Document Processing",
+            "active": false,
+            "activeVersionId": null,
+            "nodes": [
+              {
+                "parameters": {
+                  "content": "## Trigger from For Submission ",
+                  "height": 288,
+                  "width": 240,
+                  "color": 4
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  -1360,
+                  352
+                ],
+                "typeVersion": 1,
+                "id": "df2fcc62-f2a1-470d-a8ab-a9d3eeb5c5d6",
+                "name": "Sticky Note"
+              },
+              {
+                "parameters": {
+                  "form": "8N7RWhu1YDus"
+                },
+                "type": "n8n-nodes-fillout.filloutTrigger",
+                "typeVersion": 1,
+                "position": [
+                  -1296,
+                  448
+                ],
+                "id": "21133854-04f6-4fb9-99ad-e27c369aa82a",
+                "name": "Fillout Trigger",
+                "webhookId": "8acccf76-270c-4337-9b39-ca0c2b137101",
+                "notesInFlow": true,
+                "credentials": {
+                  "filloutApi": {
+                    "id": "fInxG7G1HWRBY4Np",
+                    "name": "Fillout - Careerist"
+                  }
+                },
+                "onError": "continueRegularOutput",
+                "notes": "Error occurred upon receiving data from webhook."
+              },
+              {
+                "parameters": {
+                  "content": "## Add additional fields for package plan\n",
+                  "height": 288,
+                  "width": 208,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  -704,
+                  320
+                ],
+                "typeVersion": 1,
+                "id": "09dbe6a3-5364-436a-b749-fa8e7f4b77ac",
+                "name": "Sticky Note1"
+              },
+              {
+                "parameters": {
+                  "content": "### Get proposal generated file from PDF.co   ",
+                  "height": 416,
+                  "width": 224,
+                  "color": 7
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  1888,
+                  240
+                ],
+                "typeVersion": 1,
+                "id": "ab270bc2-4c91-4b13-8871-d1e13902a339",
+                "name": "Sticky Note2"
+              },
+              {
+                "parameters": {
+                  "content": "## Set status -\n### *\"Preparing Slack messaging\"*",
+                  "height": 288,
+                  "width": 240,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  528,
+                  -672
+                ],
+                "typeVersion": 1,
+                "id": "fa30979e-6466-441e-b09c-5faa16df4e6e",
+                "name": "Sticky Note3"
+              },
+              {
+                "parameters": {
+                  "content": "## Enter data into spreadsheet",
+                  "height": 288,
+                  "width": 272,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  -384,
+                  320
+                ],
+                "typeVersion": 1,
+                "id": "3390a96d-046b-4ff0-a2d5-262eda0b78b2",
+                "name": "Sticky Note4"
+              },
+              {
+                "parameters": {
+                  "content": "Is *\"I'd like to learn more before deciding. Could your sales team contact me?\"* selected?",
+                  "height": 272,
+                  "width": 224,
+                  "color": 5
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  -80,
+                  320
+                ],
+                "typeVersion": 1,
+                "id": "7e5b740f-b7b0-4814-8e2b-53c10c8d4f30",
+                "name": "Sticky Note10"
+              },
+              {
+                "parameters": {
+                  "content": "## Generate Proposal",
+                  "height": 544,
+                  "width": 1824,
+                  "color": 3
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  672,
+                  208
+                ],
+                "typeVersion": 1,
+                "id": "4768d814-e2a1-45f5-89b8-d805e9cf2faa",
+                "name": "Sticky Note11",
+                "disabled": true
+              },
+              {
+                "parameters": {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": true,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "id": "b436f59c-c430-48fd-8f64-082ff3f62f39",
+                        "leftValue": "={{ $('Setup fields for processing').item.json.learnMore }}",
+                        "rightValue": true,
+                        "operator": {
+                          "type": "boolean",
+                          "operation": "equals"
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "looseTypeValidation": false,
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.if",
+                "typeVersion": 2.3,
+                "position": [
+                  -32,
+                  416
+                ],
+                "id": "c0987066-2de0-481c-b29c-7f591348dc53",
+                "name": "If Checkbox Selected"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleSheets": "",
+                  "authentication": "oAuth2",
+                  "resource": "sheet",
+                  "operation": "appendOrUpdate",
+                  "documentId": {
+                    "__rl": true,
+                    "value": "10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI",
+                    "mode": "list",
+                    "cachedResultName": "Data Processing ",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit?usp=drivesdk"
+                  },
+                  "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Details",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit#gid=0"
+                  },
+                  "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                      "Email": "={{ $json.repEmail }}",
+                      "Name": "={{ $json.repName }}",
+                      "Plan": "={{ $json.packagePlan }}",
+                      "Form Submisison Timestamp": "={{ $json.submissionTime }}",
+                      "Company Name": "={{ $json.companyName }}",
+                      "Company Website": "={{ $json.companyWebsite }}",
+                      "Industry": "={{ $json.industry }}",
+                      "Submission Id": "={{ $json.submissionId }}",
+                      "Last Form Submission Timestamp": "={{ $json.lastUpdatedAt }}",
+                      "Created Timestamp": "={{ $now.toISO() }}",
+                      "Last Updated Timestamp": "={{ $now.toISO() }}",
+                      "Status": "={{ !$json.learnMore ? \"Plan Selected\":\"Consultation Requested\" }}\n",
+                      "Workflow Status": "Saving client details"
+                    },
+                    "matchingColumns": [
+                      "Email"
+                    ],
+                    "schema": [
+                      {
+                        "id": "Name",
+                        "displayName": "Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Email",
+                        "displayName": "Email",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Name",
+                        "displayName": "Company Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Website",
+                        "displayName": "Company Website",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Industry",
+                        "displayName": "Industry",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Status",
+                        "displayName": "Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Plan",
+                        "displayName": "Plan",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Proposal",
+                        "displayName": "Proposal",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Workflow Status",
+                        "displayName": "Workflow Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Submission Id",
+                        "displayName": "Submission Id",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Form Submisison Timestamp",
+                        "displayName": "Form Submisison Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Last Form Submission Timestamp",
+                        "displayName": "Last Form Submission Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Created Timestamp",
+                        "displayName": "Created Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Last Updated Timestamp",
+                        "displayName": "Last Updated Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                  },
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.googleSheets",
+                "typeVersion": 4.7,
+                "position": [
+                  -304,
+                  432
+                ],
+                "id": "e235a9cd-0b35-4934-929e-ff934f663011",
+                "name": "Add Client Details Record to Google Sheet",
+                "notesInFlow": true,
+                "credentials": {
+                  "googleSheetsOAuth2Api": {
+                    "id": "vW1keJimX5TFzyu1",
+                    "name": "n8n-google-careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error occurred while saving client details."
+              },
+              {
+                "parameters": {
+                  "mode": "manual",
+                  "duplicateItem": false,
+                  "assignments": {
+                    "assignments": [
+                      {
+                        "id": "12f91926-3758-4ade-acc8-ff4754251a09",
+                        "name": "=workflowStatus",
+                        "value": "=Validation passed",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "includeOtherFields": true,
+                  "include": "all",
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.set",
+                "typeVersion": 3.4,
+                "position": [
+                  -656,
+                  432
+                ],
+                "id": "6fcb9725-1ceb-4341-8bbd-61b2468e913b",
+                "name": "Setup fields for processing"
+              },
+              {
+                "parameters": {
+                  "content": "### Generate proposal PDF from template",
+                  "height": 416,
+                  "width": 224,
+                  "color": 7
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  1280,
+                  240
+                ],
+                "typeVersion": 1,
+                "id": "c1c9268b-1d8c-4a94-882c-c2dd8133e8cd",
+                "name": "Sticky Note5"
+              },
+              {
+                "parameters": {
+                  "content": "### Save proposal PDF to storage",
+                  "height": 416,
+                  "width": 208,
+                  "color": 7
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  2192,
+                  240
+                ],
+                "typeVersion": 1,
+                "id": "9aef77d6-b546-4db3-ba5a-71aca8f565fe",
+                "name": "Sticky Note6"
+              },
+              {
+                "parameters": {
+                  "content": "### Find proposal PDF template",
+                  "height": 416,
+                  "width": 208,
+                  "color": 7
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  752,
+                  240
+                ],
+                "typeVersion": 1,
+                "id": "c21026f9-ec04-4dd9-bc75-27019ada246c",
+                "name": "Sticky Note7"
+              },
+              {
+                "parameters": {
+                  "content": "## Update record to add proposal PDF file link -\n### set workflow status to *\"Proposal complete*\"",
+                  "height": 448,
+                  "width": 256,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  2592,
+                  128
+                ],
+                "typeVersion": 1,
+                "id": "cf2fb543-73bd-4d5c-a1e9-fec49d985e5b",
+                "name": "Sticky Note12"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleSheets": "",
+                  "authentication": "oAuth2",
+                  "resource": "sheet",
+                  "operation": "update",
+                  "documentId": {
+                    "__rl": true,
+                    "value": "10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI",
+                    "mode": "list",
+                    "cachedResultName": "Data Processing ",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit?usp=drivesdk"
+                  },
+                  "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Details",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit#gid=0"
+                  },
+                  "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                      "Email": "={{ $('Setup fields for processing').item.json.repEmail }}",
+                      "Status": "Proposal complete",
+                      "Last Updated Timestamp": "={{ $now.toISO() }}",
+                      "Proposal": "==HYPERLINK(\"{{ $json.webViewLink }}\", \"{{ $json.name }}\")\n",
+                      "Workflow Status": "Emailing proposal to client"
+                    },
+                    "matchingColumns": [
+                      "Email"
+                    ],
+                    "schema": [
+                      {
+                        "id": "Name",
+                        "displayName": "Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Email",
+                        "displayName": "Email",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Name",
+                        "displayName": "Company Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Company Website",
+                        "displayName": "Company Website",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Industry",
+                        "displayName": "Industry",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Status",
+                        "displayName": "Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Plan",
+                        "displayName": "Plan",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Proposal",
+                        "displayName": "Proposal",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Workflow Status",
+                        "displayName": "Workflow Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Submission Id",
+                        "displayName": "Submission Id",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Form Submisison Timestamp",
+                        "displayName": "Form Submisison Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Form Submission Timestamp",
+                        "displayName": "Last Form Submission Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Created Timestamp",
+                        "displayName": "Created Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Updated Timestamp",
+                        "displayName": "Last Updated Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "row_number",
+                        "displayName": "row_number",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "number",
+                        "canBeUsedToMatch": true,
+                        "readOnly": true,
+                        "removed": true
+                      }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                  },
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.googleSheets",
+                "typeVersion": 4.7,
+                "position": [
+                  2656,
+                  336
+                ],
+                "id": "363f5b0e-45d2-4d77-9cd1-d9d7a3c56727",
+                "name": "Update  Google Sheet record",
+                "notesInFlow": true,
+                "credentials": {
+                  "googleSheetsOAuth2Api": {
+                    "id": "vW1keJimX5TFzyu1",
+                    "name": "n8n-google-careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while updating record with proposal link"
+              },
+              {
+                "parameters": {
+                  "content": "## Email proposal to client",
+                  "height": 448,
+                  "width": 224,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  2944,
+                  128
+                ],
+                "typeVersion": 1,
+                "id": "df281d77-5840-4f81-87ba-1ef4d2f18728",
+                "name": "Sticky Note13"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGmail": "",
+                  "authentication": "oAuth2",
+                  "resource": "message",
+                  "operation": "send",
+                  "sendTo": "=samantha.smith@careerist.academy",
+                  "subject": "The Company - Lead Proposal",
+                  "emailType": "text",
+                  "message": "=\nDear {{$('Setup fields for processing').item.json.repName}}\nThank you for reaching out to [Company name] and selecting our {{ $('Setup fields for processing').item.json.packagePlan }} package.\n\nWe're excited to have you on board! Our team has received your application and will be in touch shortly to discuss the next steps. Your success is our priority, and we're committed to delivering results that exceed your expectations.\n\nPlease find your proposal here: {{ $('Upload PDF file to Google Drive').item.json.webViewLink }}\n\nTo move forward, schedule a call with our team to finalize your plan: 📅 Book Your Call: [calendar_link]\n\nIf you have any questions in the meantime, feel free to reply to this email\n\nWe look forward to speaking with you soon!",
+                  "options": {
+                    "senderName": "Team",
+                    "replyTo": "samantha.smith@careerist.academy"
+                  }
+                },
+                "type": "n8n-nodes-base.gmail",
+                "typeVersion": 2.2,
+                "position": [
+                  3008,
+                  320
+                ],
+                "id": "0cb98e6e-eba6-4bca-8d91-b4e6c6c4962d",
+                "name": "Send a message",
+                "webhookId": "01bab9f9-6364-46d8-9afa-b8e4ff9900c5",
+                "retryOnFail": true,
+                "maxTries": 2,
+                "waitBetweenTries": 5000,
+                "notesInFlow": true,
+                "credentials": {
+                  "gmailOAuth2": {
+                    "id": "J0h9YOdt1ALmHZJg",
+                    "name": "Gmail-Careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while sending email proposal PDF file"
+              },
+              {
+                "parameters": {
+                  "content": "## Notify Sales manager",
+                  "height": 288,
+                  "width": 240,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  928,
+                  -672
+                ],
+                "typeVersion": 1,
+                "id": "567b4162-a44d-4976-9de3-126f04baf102",
+                "name": "Sticky Note14"
+              },
+              {
+                "parameters": {
+                  "authentication": "oAuth2",
+                  "resource": "message",
+                  "operation": "post",
+                  "select": "channel",
+                  "channelId": {
+                    "__rl": true,
+                    "value": "C0A9A3WJQ13",
+                    "mode": "list",
+                    "cachedResultName": "internship-document-processing-output"
+                  },
+                  "messageType": "text",
+                  "text": "=💡 Consultation Request \n\nHello manager,\n\nLead wants to know more about our product before choosing a package plan.\n\nRepresentative's Name: {{ $('Setup fields for processing').item.json.repName }}\nRepresentative's Email: {{ $('Setup fields for processing').item.json.repEmail }}\n\nRepressentative's Company Name: {{ $('Setup fields for processing').item.json.companyName }}\nCompany Website: {{ $('Setup fields for processing').item.json.companyWebsite }}\n\n",
+                  "otherOptions": {}
+                },
+                "type": "n8n-nodes-base.slack",
+                "typeVersion": 2.4,
+                "position": [
+                  992,
+                  -560
+                ],
+                "id": "e52f6e45-1c0d-4486-8952-269734860e4f",
+                "name": "Send a Slack message to Manager",
+                "webhookId": "fea32440-3a86-437a-b55d-fe6364576628",
+                "notesInFlow": true,
+                "credentials": {
+                  "slackOAuth2Api": {
+                    "id": "YGJlQb7AJOQrhFIo",
+                    "name": "Slack-app-ssmith1975-ai"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while sending slack notification to manager."
+              },
+              {
+                "parameters": {
+                  "content": "## Set Status\nReceived",
+                  "height": 640,
+                  "width": 182,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  5840,
+                  1856
+                ],
+                "typeVersion": 1,
+                "id": "3e262d4d-260e-42a4-aaa6-70fb988b5d3f",
+                "name": "Sticky Note18"
+              },
+              {
+                "parameters": {
+                  "content": "## Notify internal team",
+                  "height": 304,
+                  "width": 192,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  6080,
+                  1856
+                ],
+                "typeVersion": 1,
+                "id": "fcda0df6-0f1c-468f-a683-0e8f97b7116f",
+                "name": "Sticky Note19"
+              },
+              {
+                "parameters": {
+                  "content": "## Set Confirmation Status",
+                  "height": 640,
+                  "width": 240,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  5552,
+                  1856
+                ],
+                "typeVersion": 1,
+                "id": "bfda76a8-fdfd-4945-ad4f-27847e1efb44",
+                "name": "Sticky Note20"
+              },
+              {
+                "parameters": {
+                  "content": "## TODO:\n- Reduce this to one flow path, if possible. \n- Setup error handling for PDF generation just in case API fails\n- Improve logging capture and storing\n",
+                  "height": 272,
+                  "width": 464,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  -624,
+                  -736
+                ],
+                "typeVersion": 1,
+                "id": "011b9651-6da8-4b05-8718-bb82ca7e88a0",
+                "name": "Sticky Note22"
+              },
+              {
+                "parameters": {
+                  "authentication": "accessToken",
+                  "resource": "message",
+                  "operation": "post",
+                  "select": "channel",
+                  "channelId": {
+                    "__rl": true,
+                    "value": "C09T3BH7KFC",
+                    "mode": "list",
+                    "cachedResultName": "ssmith-workflow-output"
+                  },
+                  "messageType": "text",
+                  "text": "xxxx",
+                  "otherOptions": {}
+                },
+                "type": "n8n-nodes-base.slack",
+                "typeVersion": 2.4,
+                "position": [
+                  6128,
+                  1968
+                ],
+                "id": "c4a12fba-3451-495c-8a67-95621b1ffe9b",
+                "name": "Send a message1",
+                "webhookId": "855b1d31-79ad-4602-bcc2-85f240ccc9dd",
+                "credentials": {
+                  "slackApi": {
+                    "id": "6MDWmMnVgoBmP1O3",
+                    "name": "slack-chatbot-careerist"
+                  }
+                }
+              },
+              {
+                "parameters": {
+                  "content": "## Handle Confirmation submission",
+                  "height": 288,
+                  "width": 256,
+                  "color": 4
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  4896,
+                  1952
+                ],
+                "typeVersion": 1,
+                "id": "23e6213e-3694-4642-8ba8-dc6d4e4aa52d",
+                "name": "Sticky Note8"
+              },
+              {
+                "parameters": {
+                  "form": "cW3p1paJYcus"
+                },
+                "type": "n8n-nodes-fillout.filloutTrigger",
+                "typeVersion": 1,
+                "position": [
+                  4944,
+                  2064
+                ],
+                "id": "e3f51d6a-f639-4b9e-90b1-c803cc36217d",
+                "name": "Fillout Trigger - Confirmation",
+                "webhookId": "8acccf76-270c-4337-9b39-ca0c2b137101",
+                "credentials": {
+                  "filloutApi": {
+                    "id": "fInxG7G1HWRBY4Np",
+                    "name": "Fillout - Careerist"
+                  }
+                },
+                "disabled": true
+              },
+              {
+                "parameters": {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": true,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "id": "59efc754-ce50-4fd4-b673-c94e172fdc35",
+                        "leftValue": "comfirmation",
+                        "rightValue": "Accept",
+                        "operator": {
+                          "type": "string",
+                          "operation": "equals",
+                          "name": "filter.operator.equals"
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "looseTypeValidation": false,
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.if",
+                "typeVersion": 2.3,
+                "position": [
+                  5264,
+                  2064
+                ],
+                "id": "a250ad8c-3743-4cb8-97e6-519b00a86af2",
+                "name": "If Confirmation Accepted"
+              },
+              {
+                "parameters": {
+                  "content": "### Select path by packge plan",
+                  "height": 240,
+                  "width": 288,
+                  "color": 5
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  5200,
+                  1984
+                ],
+                "typeVersion": 1,
+                "id": "4a6480c5-5b5f-4fe4-b89d-68926f04d7ec",
+                "name": "Sticky Note16"
+              },
+              {
+                "parameters": {
+                  "mode": "manual",
+                  "duplicateItem": false,
+                  "assignments": {},
+                  "includeOtherFields": false,
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.set",
+                "typeVersion": 3.4,
+                "position": [
+                  5616,
+                  1968
+                ],
+                "id": "5e27887a-2d44-4310-9f95-aaf44c1fcaa5",
+                "name": "Set Status Field - Accepted"
+              },
+              {
+                "parameters": {
+                  "mode": "manual",
+                  "duplicateItem": false,
+                  "assignments": {},
+                  "includeOtherFields": false,
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.set",
+                "typeVersion": 3.4,
+                "position": [
+                  5616,
+                  2288
+                ],
+                "id": "6a5dab97-39f6-4298-9753-9e2e7c779fe0",
+                "name": "Set Status Field - Rejected"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleSheets": "",
+                  "authentication": "oAuth2",
+                  "resource": "sheet",
+                  "operation": "update",
+                  "documentId": {
+                    "__rl": true,
+                    "value": "10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI",
+                    "mode": "list",
+                    "cachedResultName": "Data Processing ",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit?usp=drivesdk"
+                  },
+                  "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Details",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit#gid=0"
+                  },
+                  "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {},
+                    "matchingColumns": [
+                      "Email"
+                    ],
+                    "schema": [
+                      {
+                        "id": "Name",
+                        "displayName": "Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Email",
+                        "displayName": "Email",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Name",
+                        "displayName": "Company Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Website",
+                        "displayName": "Company Website",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Industry",
+                        "displayName": "Industry",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Plan Status",
+                        "displayName": "Plan Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Plan",
+                        "displayName": "Plan",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Proposal",
+                        "displayName": "Proposal",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Status",
+                        "displayName": "Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Submission Id",
+                        "displayName": "Submission Id",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Form Submisison Timestamp",
+                        "displayName": "Form Submisison Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Last Form Submission Timestamp",
+                        "displayName": "Last Form Submission Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Created Timestamp",
+                        "displayName": "Created Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Last Updated Timestamp",
+                        "displayName": "Last Updated Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "row_number",
+                        "displayName": "row_number",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "number",
+                        "canBeUsedToMatch": true,
+                        "readOnly": true,
+                        "removed": true
+                      }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                  },
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.googleSheets",
+                "typeVersion": 4.7,
+                "position": [
+                  5888,
+                  1968
+                ],
+                "id": "127a3bb6-945a-44e4-a33f-19c24cc1326a",
+                "name": "Update row in Google Sheet - Accepted",
+                "credentials": {
+                  "googleSheetsOAuth2Api": {
+                    "id": "vW1keJimX5TFzyu1",
+                    "name": "n8n-google-careerist"
+                  }
+                }
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleSheets": "",
+                  "authentication": "oAuth2",
+                  "resource": "sheet",
+                  "operation": "update",
+                  "documentId": {
+                    "__rl": true,
+                    "value": "10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI",
+                    "mode": "list",
+                    "cachedResultName": "Data Processing ",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit?usp=drivesdk"
+                  },
+                  "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Details",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit#gid=0"
+                  },
+                  "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {},
+                    "matchingColumns": [],
+                    "schema": [
+                      {
+                        "id": "Name",
+                        "displayName": "Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Email",
+                        "displayName": "Email",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Plan",
+                        "displayName": "Plan",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Status",
+                        "displayName": "Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Proposal",
+                        "displayName": "Proposal",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "row_number",
+                        "displayName": "row_number",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "number",
+                        "canBeUsedToMatch": true,
+                        "readOnly": true,
+                        "removed": true
+                      }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                  },
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.googleSheets",
+                "typeVersion": 4.7,
+                "position": [
+                  5872,
+                  2288
+                ],
+                "id": "35f5da7a-5218-4a71-a4bd-fd8e35157a78",
+                "name": "Update row in Google Sheet - Rejected",
+                "credentials": {
+                  "googleSheetsOAuth2Api": {
+                    "id": "vW1keJimX5TFzyu1",
+                    "name": "n8n-google-careerist"
+                  }
+                }
+              },
+              {
+                "parameters": {
+                  "content": "# Case 1: Document Processing Workflow Design\n## AI Automations\nSamantha Smith\n1/15/2026\n\n### Purpose\nPart 1\n- Accept client details from web form \n(https://forms.fillout.com/t/8N7RWhu1YDus)\n- Store client details into spreadsheet\n- Prepare proposal PDF\n- Send proposal PDF to client\n\nPart 2\n- Accept confirmation from web form\n- Update spread sheet\n- If accepted, notify internal team\n\n\n### *Changes*\n- Configure Fillout form to allow users to edit their own details, \nsuch as package plan, and re-submit. The workflow should detect \nthe submission through webhook.\n- Include a link in the email containing the proposal that will direct\nclient to a chatbot in case they need more clarifications.",
+                  "height": 640,
+                  "width": 1344,
+                  "color": 2
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  -1424,
+                  -912
+                ],
+                "typeVersion": 1,
+                "id": "bb4fb091-9708-4bb5-9246-1c2cdbab7f39",
+                "name": "Sticky Note17"
+              },
+              {
+                "parameters": {
+                  "mode": "runOnceForAllItems",
+                  "language": "javaScript",
+                  "jsCode": "// Get raw JSON payload from form input\nconst items = $input.all();\n\n// Extraxt properties that we want\nconst {\n  submissionId, \n  submissionTime, \n  lastUpdatedAt, \n  questions} = items[0]?.json;\n\nlet result = {};\n\n// Map form field questions to new JSON properties\nfor(const [_, val] of Object.entries(questions)){\n   switch (val.name) {\n       case \"Company Name\":\n          result[\"companyName\"] = val.value || \"\";\n          break;\n       case \"Company Website\":\n         result[\"companyWebsite\"] = val.value || \"\";\n         break;        \n       case \"Industry\":\n         result[\"industry\"] = val.value || \"\";\n         break;\n       case \"Representative's Name\":\n         result[\"repName\"] = val.value || \"\";\n         break;\n       case \"Representative's Email\":\n         result[\"repEmail\"] = val.value || \"\";\n         break;\n       case \"Pick your Plan\":\n         \n         result[\"plan\"] = val.value || \"\";\n  \n           if(result.plan === \"starter\") {\n             \n             result[\"planAlias\"] = \"Starter\";\n             result[\"packagePlan\"] = \"Starter Plan\";\n             result[\"planTemplate\"] = \"Starter Template.pdf\";\n             result[\"proposalFilenamePrefix\"] = \"Starter_Plan\";\n             \n           } else if(result.plan === 'growth') {\n             \n             result[\"planAlias\"] = \"Growth\";\n             result[\"packagePlan\"] = \"Growth Plan\";\n             result[\"planTemplate\"] = \"Growth Template.pdf\";\n             result[\"proposalFilenamePrefix\"] = \"Growth_Plan\";  \n             \n           } else if(result.plan === 'premium') {\n             \n             result[\"planAlias\"] = \"Premium\";\n             result[\"packagePlan\"] = \"Premium Plan\";\n             result[\"planTemplate\"] = \"Premium Template.pdf\";\n             result[\"proposalFilenamePrefix\"] = \"Premium_Plan\";\n             \n           }\n\n       \n         break;\n       case \"I'd like to learn more before deciding. Could your sales team contact me?\":\n         result[\"learnMore\"] = val.value || false;\n         break;\n    \n     default:        \n         break;\n   }\n}\n\n //TEST: error handling\n  result.repEmail = \"aaa\";\n\n\n\n /// Validation\n   // Check company name\n   if(!result.companyName) {\n     throw new Error('Invalid representative name');\n    \n   }\n\n   // Check repName\n   if(!result.repName) {\n     throw new Error('Missing representative name');\n   }\n\n   // Check representative name length\n    if(result.repName.length < 2) {\n      throw new Error('Invalid representative name');\n    }\n\n   // Check email format\n   if(!validateEmail(result.repEmail)) {\n     throw new Error('Invalid email format');\n   } \n\n   // Check if package selected when \"learn more\" checkbox is unchecked\n   if(!result.learnMore && !result.plan) {\n    throw new Error ('Missing package plan selection');    \n   }\n\n/// Transform input\n// Capitalize first letter in words (ie. \"hello world\" --> \"Hello World\")\nresult.companyName = capitalizeWordsRegex(result.companyName);\nresult.repName = capitalizeWordsRegex(result.repName);\n\n// Convert date format of timestamps (UTC)\nconst submissionTimeUTC = DateTime.fromISO(submissionTime); //DateTime.fromISO(submissionTime).toUTC();\nconst lastUpdatedAtUTC  = DateTime.fromISO(lastUpdatedAt);\n\n\n// Add workflow execution data\n$execution.customData.set(\"submissionId\", \"xxxTESTxxx\");\n\n\n// Return JSON\nreturn [ {\n  json: {\n     ...result, \n    submissionId, \n    submissionTime:submissionTimeUTC, \n    lastUpdatedAt: lastUpdatedAtUTC \n  }      \n}];\n\n/**\n * Validates an email address format using a regular expression.\n * @param {string} email The email address to validate.\n * @returns {boolean} True if the format is valid, false otherwise.\n */\nfunction validateEmail(email) {\n  // Pattern checks for:\n  // ^[a-zA-Z0-9._%+-]+ : username part\n  // @                 : literal \"@\" symbol\n  // [a-zA-Z0-9.-]+    : domain name\n  // \\\\.[a-zA-Z]{2,}$  : top-level domain (e.g., .com, .org) with at least 2 letters\n  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;\n  return emailPattern.test(email);\n}\n\n/**\n * Capitalizes the first letter of each word in a string\n * @param {string} sentence to transform.\n * @returns {string} formatted string.\n */\nfunction capitalizeWordsRegex(sentence) {\n  // The regex /\\b\\w/g matches the first letter of each word\n  // \\b matches a word boundary, \\w matches a word character, and g is for a global search\n  return sentence.replace(/\\b\\w/g, char => char.toUpperCase());\n}\n",
+                  "notice": ""
+                },
+                "type": "n8n-nodes-base.code",
+                "typeVersion": 2,
+                "position": [
+                  -896,
+                  448
+                ],
+                "id": "c794e581-7573-415f-91a2-c3d7f160dabc",
+                "name": "Get Form fields",
+                "notesInFlow": true,
+                "onError": "continueErrorOutput",
+                "notes": "An error occurred while getting form fields"
+              },
+              {
+                "parameters": {
+                  "content": "## Process form fields\n",
+                  "height": 288,
+                  "width": 192,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  -944,
+                  320
+                ],
+                "typeVersion": 1,
+                "id": "e2ff9062-5b53-408c-8b16-bfa0cf6c5ebc",
+                "name": "Sticky Note9"
+              },
+              {
+                "parameters": {
+                  "content": "## Optional Workflow for handling client clarifications and pricing changes\n",
+                  "height": 832,
+                  "width": 1776,
+                  "color": 7
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  4752,
+                  1760
+                ],
+                "id": "2f8b86b1-c5f0-42db-b0bb-3b2bc6293b73",
+                "name": "Sticky Note25"
+              },
+              {
+                "parameters": {
+                  "content": "\n### Tech Implemented\n* Fillout form and webhook\n* Google Sheets\n* Google Drive\n* Google Email\n* PDF.co\n* HTTP Request\n* Slack\n* Error Handling\n* Logging\n",
+                  "height": 272,
+                  "width": 368,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  -1024,
+                  -736
+                ],
+                "id": "45b7be3a-3192-40e9-8045-506bedfac573",
+                "name": "Sticky Note24"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleSheets": "",
+                  "authentication": "oAuth2",
+                  "resource": "sheet",
+                  "operation": "appendOrUpdate",
+                  "documentId": {
+                    "__rl": true,
+                    "value": "10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI",
+                    "mode": "list",
+                    "cachedResultName": "Data Processing ",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit?usp=drivesdk"
+                  },
+                  "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Details",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit#gid=0"
+                  },
+                  "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                      "Email": "={{ $('Setup fields for processing').item.json.repEmail }}",
+                      "Last Updated Timestamp": "={{ $now.toISO() }}",
+                      "Workflow Status": "Preparing Slack messaging"
+                    },
+                    "matchingColumns": [
+                      "Email"
+                    ],
+                    "schema": [
+                      {
+                        "id": "Name",
+                        "displayName": "Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Email",
+                        "displayName": "Email",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Name",
+                        "displayName": "Company Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Company Website",
+                        "displayName": "Company Website",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Industry",
+                        "displayName": "Industry",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Status",
+                        "displayName": "Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Plan",
+                        "displayName": "Plan",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Proposal",
+                        "displayName": "Proposal",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Workflow Status",
+                        "displayName": "Workflow Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      },
+                      {
+                        "id": "Submission Id",
+                        "displayName": "Submission Id",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Form Submisison Timestamp",
+                        "displayName": "Form Submisison Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Form Submission Timestamp",
+                        "displayName": "Last Form Submission Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Created Timestamp",
+                        "displayName": "Created Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Updated Timestamp",
+                        "displayName": "Last Updated Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true
+                      }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                  },
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.googleSheets",
+                "typeVersion": 4.7,
+                "position": [
+                  592,
+                  -544
+                ],
+                "id": "cc12874f-7977-4170-b4af-7ec7669d7e92",
+                "name": "Update spreadsheet workflow status - slack",
+                "notesInFlow": true,
+                "credentials": {
+                  "googleSheetsOAuth2Api": {
+                    "id": "vW1keJimX5TFzyu1",
+                    "name": "n8n-google-careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error occurred while updating spreadsheet consultation status"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleSheets": "",
+                  "authentication": "oAuth2",
+                  "resource": "sheet",
+                  "operation": "update",
+                  "documentId": {
+                    "__rl": true,
+                    "value": "10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI",
+                    "mode": "list",
+                    "cachedResultName": "Data Processing ",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit?usp=drivesdk"
+                  },
+                  "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Details",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit#gid=0"
+                  },
+                  "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                      "Email": "={{ $('Setup fields for processing').item.json.repEmail }}",
+                      "Workflow Status": "Preparing proposal PDF",
+                      "Last Updated Timestamp": "={{ $now.toISO() }}"
+                    },
+                    "matchingColumns": [
+                      "Email"
+                    ],
+                    "schema": [
+                      {
+                        "id": "Name",
+                        "displayName": "Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Email",
+                        "displayName": "Email",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Name",
+                        "displayName": "Company Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Company Website",
+                        "displayName": "Company Website",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Industry",
+                        "displayName": "Industry",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Status",
+                        "displayName": "Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Plan",
+                        "displayName": "Plan",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Proposal",
+                        "displayName": "Proposal",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Workflow Status",
+                        "displayName": "Workflow Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Submission Id",
+                        "displayName": "Submission Id",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Form Submisison Timestamp",
+                        "displayName": "Form Submisison Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Form Submission Timestamp",
+                        "displayName": "Last Form Submission Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Created Timestamp",
+                        "displayName": "Created Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Updated Timestamp",
+                        "displayName": "Last Updated Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "row_number",
+                        "displayName": "row_number",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "number",
+                        "canBeUsedToMatch": true,
+                        "readOnly": true,
+                        "removed": true
+                      }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                  },
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.googleSheets",
+                "typeVersion": 4.7,
+                "position": [
+                  336,
+                  432
+                ],
+                "id": "6250889e-7d63-4fb2-ae1c-11f548e9cd81",
+                "name": "Update spreadsheet workflow status - proposal",
+                "notesInFlow": true,
+                "credentials": {
+                  "googleSheetsOAuth2Api": {
+                    "id": "vW1keJimX5TFzyu1",
+                    "name": "n8n-google-careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while updating workflow status for proposal"
+              },
+              {
+                "parameters": {
+                  "content": "## Set status -\n### *\"Preparing proposal PDF\"* ",
+                  "height": 288,
+                  "width": 240,
+                  "color": 6
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  272,
+                  320
+                ],
+                "typeVersion": 1,
+                "id": "7f1bff9e-3643-4821-96f2-f5949cb108b2",
+                "name": "Sticky Note23"
+              },
+              {
+                "parameters": {
+                  "content": "## Set status -\n### set workflow status to *\"Proposal complete*\"",
+                  "height": 448,
+                  "width": 256,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  3264,
+                  128
+                ],
+                "typeVersion": 1,
+                "id": "8fe0fa50-829d-4e35-9510-dfb042f16f47",
+                "name": "Sticky Note26"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleSheets": "",
+                  "authentication": "oAuth2",
+                  "resource": "sheet",
+                  "operation": "update",
+                  "documentId": {
+                    "__rl": true,
+                    "value": "10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI",
+                    "mode": "list",
+                    "cachedResultName": "Data Processing ",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit?usp=drivesdk"
+                  },
+                  "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Details",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit#gid=0"
+                  },
+                  "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                      "Email": "={{ $('Setup fields for processing').item.json.repEmail }}",
+                      "Last Updated Timestamp": "={{ $now.toISO() }}",
+                      "Workflow Status": "Proposal completed"
+                    },
+                    "matchingColumns": [
+                      "Email"
+                    ],
+                    "schema": [
+                      {
+                        "id": "Name",
+                        "displayName": "Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Email",
+                        "displayName": "Email",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Name",
+                        "displayName": "Company Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Company Website",
+                        "displayName": "Company Website",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Industry",
+                        "displayName": "Industry",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Status",
+                        "displayName": "Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Plan",
+                        "displayName": "Plan",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Proposal",
+                        "displayName": "Proposal",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Workflow Status",
+                        "displayName": "Workflow Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Submission Id",
+                        "displayName": "Submission Id",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Form Submisison Timestamp",
+                        "displayName": "Form Submisison Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Form Submission Timestamp",
+                        "displayName": "Last Form Submission Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Created Timestamp",
+                        "displayName": "Created Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Updated Timestamp",
+                        "displayName": "Last Updated Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "row_number",
+                        "displayName": "row_number",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "number",
+                        "canBeUsedToMatch": true,
+                        "readOnly": true,
+                        "removed": true
+                      }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                  },
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.googleSheets",
+                "typeVersion": 4.7,
+                "position": [
+                  3360,
+                  304
+                ],
+                "id": "5603adee-22cd-4d9c-97ae-061c7ccfdda7",
+                "name": "Update spreadsheet workflow status - proposal completed",
+                "notesInFlow": true,
+                "credentials": {
+                  "googleSheetsOAuth2Api": {
+                    "id": "vW1keJimX5TFzyu1",
+                    "name": "n8n-google-careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while updating workflow status to \"proposal complete\""
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\",\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  -656,
+                  736
+                ],
+                "id": "22f96d1c-ca7b-42bb-abf3-f87bd22a899f",
+                "name": "Stop and Error - Get Form fields"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\",\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  -80,
+                  752
+                ],
+                "id": "8bd23b5b-a5cc-4421-b4ea-bb1bb94166f2",
+                "name": "Stop and Error - Add Client Details Record to Google Sheet"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\"\n\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  864,
+                  -320
+                ],
+                "id": "a1a9fa17-4104-4026-8baa-43c10f886631",
+                "name": "Stop and Error - Update spreadsheet workflow status - slack"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\"\n\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  576,
+                  704
+                ],
+                "id": "acf61ac0-92f6-4b69-bf7d-3347f4250d3d",
+                "name": "Stop and Error - process"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\"\n\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  1264,
+                  -320
+                ],
+                "id": "ce12b847-047e-4828-8f01-c0fcdc6982e1",
+                "name": "Stop and Error - Send a Slack message to Manager"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $('Setup fields for processing').item.json.packagePlan }}: {{ $json.error }}\"\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  1008,
+                  1088
+                ],
+                "id": "ce8133e4-971f-445b-a870-8cd1f5c5edd7",
+                "name": "Stop and Error - Search Google Drive for PDF template"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleDrive": "",
+                  "authentication": "oAuth2",
+                  "resource": "fileFolder",
+                  "operation": "search",
+                  "searchMethod": "name",
+                  "queryString": "={{ $('Setup fields for processing').item.json.planTemplate }}",
+                  "returnAll": false,
+                  "limit": 1,
+                  "filter": {
+                    "folderId": {
+                      "__rl": true,
+                      "value": "1HWyngMD4XBISk2LS1zi3k9G414mgBz6E",
+                      "mode": "list",
+                      "cachedResultName": "Templates",
+                      "cachedResultUrl": "https://drive.google.com/drive/folders/1HWyngMD4XBISk2LS1zi3k9G414mgBz6E"
+                    }
+                  },
+                  "options": {
+                    "fields": [
+                      "name",
+                      "webViewLink",
+                      "id"
+                    ]
+                  }
+                },
+                "type": "n8n-nodes-base.googleDrive",
+                "typeVersion": 3,
+                "position": [
+                  800,
+                  416
+                ],
+                "id": "16274859-2709-4915-88f5-e77666a32e1f",
+                "name": "Search Google Drive for PDF template",
+                "notesInFlow": true,
+                "credentials": {
+                  "googleDriveOAuth2Api": {
+                    "id": "bXGsp0VK0KNW0D7b",
+                    "name": "Google-ClientID-Careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while searching for PDF template in Google Drive"
+              },
+              {
+                "parameters": {
+                  "operation": "Search & Replace Text or Delete",
+                  "url": "={{ $('Search Google Drive for PDF template').item.json.webViewLink}}",
+                  "operationType": "replace",
+                  "replaceOperations": {
+                    "metadataValues": [
+                      {
+                        "searchString": "{{client_company}}",
+                        "replaceString": "={{ $('Setup fields for processing').item.json.companyName }}"
+                      },
+                      {
+                        "searchString": "{{package_name}}",
+                        "replaceString": "={{ $('Setup fields for processing').item.json.packagePlan }}"
+                      }
+                    ]
+                  },
+                  "pages": "=",
+                  "advancedOptions": {
+                    "name": "={{ $('Setup fields for processing').item.json.proposalFilenamePrefix }}_{{ $('Setup fields for processing').item.json.submissionId }}_{{ $now.format('yyyyMMddHHmmss') }}"
+                  }
+                },
+                "type": "n8n-nodes-pdfco.PDFco Api",
+                "typeVersion": 1,
+                "position": [
+                  1344,
+                  384
+                ],
+                "id": "51d66cc2-ec1a-4287-a8f7-c400335f9031",
+                "name": "PDFco Api - Replace placeholder text",
+                "retryOnFail": true,
+                "waitBetweenTries": 5000,
+                "notesInFlow": true,
+                "alwaysOutputData": false,
+                "credentials": {
+                  "pdfcoApi": {
+                    "id": "L6lfx6qvOVI6ic24",
+                    "name": "PDF.co - careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while connecting to PDF.co API"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $('Setup fields for processing').item.json.packagePlan }}: {{ $json.error }}\"\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  1584,
+                  1088
+                ],
+                "id": "10d40312-9665-4efd-b93a-b7a4510e045a",
+                "name": "Stop and Error - PDFco Api - Replace placeholder text"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ \n$('Setup fields for processing').item.json.packagePlan }}: {{ $json.error.stack}}\"\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  2288,
+                  976
+                ],
+                "id": "e05bf806-4411-414b-88a7-163f747f51fa",
+                "name": "Stop and Error - HTTP Request to PDF.co"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\"\n\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  2960,
+                  720
+                ],
+                "id": "aef53ca7-8b8e-4465-aeec-e126bcd49d3b",
+                "name": "Stop and Error - Update  Google Sheet record"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\"\n\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  3328,
+                  720
+                ],
+                "id": "35b2f82c-b54e-43cb-9637-ebf8c101f1b0",
+                "name": "Stop and Error - Send a message"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $json.error }}\"\n\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  3664,
+                  720
+                ],
+                "id": "44894251-6080-4924-a52c-55b133ddf063",
+                "name": "Stop and Error - Update spreadsheet workflow status - proposal completed"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleDrive": "",
+                  "authentication": "oAuth2",
+                  "resource": "fileFolder",
+                  "operation": "search",
+                  "searchMethod": "name",
+                  "queryString": "={{ $('Setup fields for processing').item.json.planAlias }}",
+                  "returnAll": false,
+                  "limit": 50,
+                  "filter": {
+                    "folderId": {
+                      "__rl": true,
+                      "value": "1VcTVpYtb4GTrAdj_XEnoHSbGc0C4GhCv",
+                      "mode": "list",
+                      "cachedResultName": "Proposals",
+                      "cachedResultUrl": "https://drive.google.com/drive/folders/1VcTVpYtb4GTrAdj_XEnoHSbGc0C4GhCv"
+                    },
+                    "whatToSearch": "folders"
+                  },
+                  "options": {
+                    "fields": [
+                      "id",
+                      "name",
+                      "webViewLink"
+                    ]
+                  }
+                },
+                "type": "n8n-nodes-base.googleDrive",
+                "typeVersion": 3,
+                "position": [
+                  1056,
+                  400
+                ],
+                "id": "5f85e70b-21cc-48d9-aaa9-8ec998e87b5a",
+                "name": "Search files and folders",
+                "notesInFlow": true,
+                "credentials": {
+                  "googleDriveOAuth2Api": {
+                    "id": "bXGsp0VK0KNW0D7b",
+                    "name": "Google-ClientID-Careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while finding folder to upload to"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleDrive": "",
+                  "authentication": "oAuth2",
+                  "resource": "file",
+                  "operation": "upload",
+                  "inputDataFieldName": "data",
+                  "name": "={{ $('PDFco Api - Replace placeholder text').item.json.name }}",
+                  "driveId": {
+                    "__rl": true,
+                    "mode": "list",
+                    "value": "My Drive"
+                  },
+                  "folderId": {
+                    "__rl": true,
+                    "value": "={{ $('Search files and folders').item.json.id }}",
+                    "mode": "id"
+                  },
+                  "options": {
+                    "simplifyOutput": false
+                  }
+                },
+                "type": "n8n-nodes-base.googleDrive",
+                "typeVersion": 3,
+                "position": [
+                  2256,
+                  352
+                ],
+                "id": "f7ae5270-9797-42ed-b1e1-1c54a1180b71",
+                "name": "Upload PDF file to Google Drive",
+                "alwaysOutputData": false,
+                "notesInFlow": true,
+                "credentials": {
+                  "googleDriveOAuth2Api": {
+                    "id": "bXGsp0VK0KNW0D7b",
+                    "name": "Google-ClientID-Careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while uploading PDF file into Google Drive"
+              },
+              {
+                "parameters": {
+                  "content": "### Find upload folder in Google Drive",
+                  "height": 416,
+                  "width": 208,
+                  "color": 7
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  1024,
+                  240
+                ],
+                "typeVersion": 1,
+                "id": "8977f440-6bc1-4f37-8ffb-28fb4a2a2d9a",
+                "name": "Sticky Note15"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $('Setup fields for processing').item.json.packagePlan }}: {{ $json.error }}\"\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  1296,
+                  1088
+                ],
+                "id": "a1278057-34dd-4e9d-b91d-a727d94493ad",
+                "name": "Stop and Error - Search Google Drive for PDF template1"
+              },
+              {
+                "parameters": {
+                  "errorType": "errorObject",
+                  "errorObject": "={ \n  \"submissionId\": \"{{ $('Fillout Trigger').item.json.submissionId }}\",\n  \"error\": \"{{ $('Setup fields for processing').item.json.packagePlan }}: {{ $json.error }}\"\n}"
+                },
+                "type": "n8n-nodes-base.stopAndError",
+                "typeVersion": 1,
+                "position": [
+                  2608,
+                  976
+                ],
+                "id": "45ed844f-67e5-431a-a5b9-10a4d60f2bc7",
+                "name": "Stop and Error - Search Google Drive for PDF template2"
+              },
+              {
+                "parameters": {
+                  "content": "## Set status -\n### set workflow status to *\"Proposal complete*\"",
+                  "height": 352,
+                  "width": 256,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  1312,
+                  -720
+                ],
+                "typeVersion": 1,
+                "id": "26700a1d-a648-442a-a4e9-1b8cc9d645dd",
+                "name": "Sticky Note27"
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutGoogleSheets": "",
+                  "authentication": "oAuth2",
+                  "resource": "sheet",
+                  "operation": "update",
+                  "documentId": {
+                    "__rl": true,
+                    "value": "10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI",
+                    "mode": "list",
+                    "cachedResultName": "Data Processing ",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit?usp=drivesdk"
+                  },
+                  "sheetName": {
+                    "__rl": true,
+                    "value": "gid=0",
+                    "mode": "list",
+                    "cachedResultName": "Details",
+                    "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10PnIungtEh2z7naWsrIBWg9fPUR7fkng8R1ocWjm0zI/edit#gid=0"
+                  },
+                  "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                      "Email": "={{ $('Setup fields for processing').item.json.repEmail }}",
+                      "Last Updated Timestamp": "={{ $now.toISO() }}",
+                      "Workflow Status": "Manager notification completed"
+                    },
+                    "matchingColumns": [
+                      "Email"
+                    ],
+                    "schema": [
+                      {
+                        "id": "Name",
+                        "displayName": "Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Email",
+                        "displayName": "Email",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Company Name",
+                        "displayName": "Company Name",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Company Website",
+                        "displayName": "Company Website",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Industry",
+                        "displayName": "Industry",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Status",
+                        "displayName": "Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Plan",
+                        "displayName": "Plan",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Proposal",
+                        "displayName": "Proposal",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Workflow Status",
+                        "displayName": "Workflow Status",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "Submission Id",
+                        "displayName": "Submission Id",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Form Submisison Timestamp",
+                        "displayName": "Form Submisison Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Form Submission Timestamp",
+                        "displayName": "Last Form Submission Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Created Timestamp",
+                        "displayName": "Created Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": true
+                      },
+                      {
+                        "id": "Last Updated Timestamp",
+                        "displayName": "Last Updated Timestamp",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "string",
+                        "canBeUsedToMatch": true,
+                        "removed": false
+                      },
+                      {
+                        "id": "row_number",
+                        "displayName": "row_number",
+                        "required": false,
+                        "defaultMatch": false,
+                        "display": true,
+                        "type": "number",
+                        "canBeUsedToMatch": true,
+                        "readOnly": true,
+                        "removed": true
+                      }
+                    ],
+                    "attemptToConvertTypes": false,
+                    "convertFieldsToString": false
+                  },
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.googleSheets",
+                "typeVersion": 4.7,
+                "position": [
+                  1376,
+                  -576
+                ],
+                "id": "dff58704-5873-48d1-8dde-41a007c56c0f",
+                "name": "Update spreadsheet workflow status - proposal completed1",
+                "notesInFlow": true,
+                "credentials": {
+                  "googleSheetsOAuth2Api": {
+                    "id": "vW1keJimX5TFzyu1",
+                    "name": "n8n-google-careerist"
+                  }
+                },
+                "onError": "continueErrorOutput",
+                "notes": "Error while updating workflow status to \"proposal complete\""
+              },
+              {
+                "parameters": {
+                  "preBuiltAgentsCalloutHttpRequest": "",
+                  "curlImport": "",
+                  "method": "=GET",
+                  "url": "={{ $('PDFco Api - Replace placeholder text').item.json.url }}",
+                  "authentication": "none",
+                  "provideSslCertificates": false,
+                  "sendQuery": false,
+                  "sendHeaders": false,
+                  "sendBody": false,
+                  "options": {
+                    "response": {
+                      "response": {
+                        "fullResponse": true,
+                        "neverError": false,
+                        "responseFormat": "autodetect"
+                      }
+                    },
+                    "timeout": 10000
+                  },
+                  "infoMessage": ""
+                },
+                "type": "n8n-nodes-base.httpRequest",
+                "typeVersion": 4.3,
+                "position": [
+                  1936,
+                  368
+                ],
+                "id": "f1935df5-e7c4-4734-b91c-b4da0804d389",
+                "name": "HTTP Request to PDF.co",
+                "retryOnFail": true,
+                "waitBetweenTries": 5000,
+                "notesInFlow": true,
+                "onError": "continueErrorOutput",
+                "notes": "Error while connecting to PDF.co API  file download"
+              },
+              {
+                "parameters": {
+                  "resume": "timeInterval",
+                  "amount": "=15",
+                  "unit": "seconds"
+                },
+                "type": "n8n-nodes-base.wait",
+                "typeVersion": 1.1,
+                "position": [
+                  1664,
+                  368
+                ],
+                "id": "929dd7a5-c507-4105-9490-5ea2f999e6b3",
+                "name": "Wait1",
+                "webhookId": "1c86ba57-f5b2-4bd4-b878-d5b690a8b630"
+              },
+              {
+                "parameters": {
+                  "content": "### START_WORKFLOW\nLog form submission",
+                  "height": 240,
+                  "width": 208,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  -1248,
+                  48
+                ],
+                "id": "f59c1258-31d4-49da-ba76-fa366fb34876",
+                "name": "Sticky Note28"
+              },
+              {
+                "parameters": {
+                  "content": "### COMPLETED_DATA_PROCESSING\nLog Data Processing\n\n",
+                  "height": 240,
+                  "width": 192,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  -704,
+                  48
+                ],
+                "id": "7ac65e72-a580-4dd1-9681-97f95b1542cb",
+                "name": "Sticky Note29"
+              },
+              {
+                "parameters": {
+                  "content": "   ### COMPLETED_ADDING_DETAILS\nLog inserting records into spreadsheet\n\n",
+                  "height": 240,
+                  "width": 208,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  -80,
+                  48
+                ],
+                "id": "4bcadd9a-00f7-4913-b6ce-afb045fc85f9",
+                "name": "Sticky Note30"
+              },
+              {
+                "parameters": {
+                  "content": "### START_NOTIFICATION_NO_PLAN\nSet status for no plan\n\n",
+                  "height": 144,
+                  "width": 208,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  544,
+                  -864
+                ],
+                "id": "99ad49a4-4e30-4d3d-8147-ae950086520b",
+                "name": "Sticky Note31"
+              },
+              {
+                "parameters": {
+                  "content": "### COMPLETED_NOTIFICATION_NO_PLAN\nSend slack notification completed\n\n",
+                  "height": 160,
+                  "width": 192,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  960,
+                  -880
+                ],
+                "id": "940c7478-5a79-40ad-8380-6cb3ec6124a9",
+                "name": "Sticky Note32"
+              },
+              {
+                "parameters": {
+                  "content": "### START_PDF_GENERATION\nCreating PDF file from template",
+                  "height": 160,
+                  "width": 240,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  1168,
+                  -32
+                ],
+                "id": "326e6c28-8226-4d47-b8a7-89e469f8e89e",
+                "name": "Sticky Note33"
+              },
+              {
+                "parameters": {
+                  "content": "### START_PROPOSAL_PROCESS\nSet status for preparing proposal PDF\n",
+                  "height": 256,
+                  "width": 192,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  288,
+                  32
+                ],
+                "id": "1903fc00-9e2f-4c40-b5c3-2c5ce814b6fa",
+                "name": "Sticky Note34"
+              },
+              {
+                "parameters": {
+                  "content": "### START_SEND_PROPOSAL\nEmail proposal to client\n      ",
+                  "height": 192,
+                  "width": 192,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  2592,
+                  -96
+                ],
+                "id": "f5741131-1ff0-4028-8da5-c9535dbac72d",
+                "name": "Sticky Note35"
+              },
+              {
+                "parameters": {
+                  "content": "### START_DATA_PROCESSING\nLog Data Processing\n\n",
+                  "height": 240,
+                  "width": 192,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  -944,
+                  48
+                ],
+                "id": "b06dbcd4-0ba5-43cc-8dd8-c857e413ac56",
+                "name": "Sticky Note36"
+              },
+              {
+                "parameters": {
+                  "content": "### START_ADDING_DETAILS\nLog inserting records into spreadsheet\n\n",
+                  "height": 240,
+                  "width": 208,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  -384,
+                  48
+                ],
+                "id": "84930d58-a69a-4071-8588-90dd811f2076",
+                "name": "Sticky Note37"
+              },
+              {
+                "parameters": {
+                  "content": "### COMPLETED_SEND_PROPOSAL\nEmail proposal to client\n      ",
+                  "height": 176,
+                  "width": 208,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  2960,
+                  -96
+                ],
+                "id": "d620d464-d1b6-4273-bb99-a90fe30c85c3",
+                "name": "Sticky Note38"
+              },
+              {
+                "parameters": {
+                  "content": "### COMPLETED_WORKFLOW_WITH_PLAN\nEnd of workflow for package plan\n      ",
+                  "height": 176,
+                  "width": 208,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  3280,
+                  -112
+                ],
+                "id": "62142734-0066-4f8a-af12-8afd9a83e89d",
+                "name": "Sticky Note39"
+              },
+              {
+                "parameters": {
+                  "content": "### COMPLETED_WORKFLOW_NO_PLAN\nEnd of workflow for no plan",
+                  "height": 160,
+                  "width": 192,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  1312,
+                  -912
+                ],
+                "id": "e4d8274d-aaa8-4f43-a738-6f751606ef78",
+                "name": "Sticky Note41"
+              },
+              {
+                "parameters": {
+                  "content": "### COMPLETED_PROPOSAL_PROCESS\nEnd of total proposal process",
+                  "height": 224,
+                  "width": 240,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  2192,
+                  -80
+                ],
+                "id": "4e9b4a2e-b8de-4d6f-b3f7-917bd65708bf",
+                "name": "Sticky Note42"
+              },
+              {
+                "parameters": {
+                  "content": "###  COMPLETED_PDF_RETRIEVAL\nRetrieved PDF file from API",
+                  "height": 208,
+                  "width": 240,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  1920,
+                  -64
+                ],
+                "id": "4d7a5a62-9752-482c-a657-0fd5d0da07ee",
+                "name": "Sticky Note43"
+              },
+              {
+                "parameters": {
+                  "content": "### COMPLETED_PDF_GENERATION\nCompleted PDF generation",
+                  "height": 176,
+                  "width": 176,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  1424,
+                  -48
+                ],
+                "id": "1f8088ba-bc6a-407d-987a-a76d3bd6777c",
+                "name": "Sticky Note40"
+              },
+              {
+                "parameters": {
+                  "content": "### START_PDF_RETRIEVAL\nGet generated PDF file from API",
+                  "height": 192,
+                  "width": 224,
+                  "color": 1
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "typeVersion": 1,
+                "position": [
+                  1680,
+                  -64
+                ],
+                "id": "7d55784e-1426-4bc2-ba29-5e8adde86a75",
+                "name": "Sticky Note44"
+              },
+              {
+                "parameters": {
+                  "mode": "manual",
+                  "duplicateItem": false,
+                  "assignments": {
+                    "assignments": [
+                      {
+                        "id": "90ff335f-8ab0-4f2d-a724-008298a9f554",
+                        "name": "eventType",
+                        "value": "START_WORKFLOW",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "includeOtherFields": true,
+                  "include": "all",
+                  "options": {}
+                },
+                "type": "n8n-nodes-base.set",
+                "typeVersion": 3.4,
+                "position": [
+                  -1200,
+                  112
+                ],
+                "id": "075eca4f-94e4-4379-a7c6-1bf630436528",
+                "name": "LOG_START_WORKFLOW"
+              },
+              {
+                "parameters": {
+                  "content": "### Wait for PDF.co API to process PDF ",
+                  "height": 416,
+                  "width": 224,
+                  "color": 7
+                },
+                "type": "n8n-nodes-base.stickyNote",
+                "position": [
+                  1600,
+                  240
+                ],
+                "typeVersion": 1,
+                "id": "6be706a3-f340-49d8-8106-c941fa396fdb",
+                "name": "Sticky Note21"
+              }
+            ],
+            "connections": {
+              "Fillout Trigger": {
+                "main": [
+                  [
+                    {
+                      "node": "Get Form fields",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "If Checkbox Selected": {
+                "main": [
+                  [
+                    {
+                      "node": "Update spreadsheet workflow status - slack",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Update spreadsheet workflow status - proposal",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Add Client Details Record to Google Sheet": {
+                "main": [
+                  [
+                    {
+                      "node": "If Checkbox Selected",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Add Client Details Record to Google Sheet",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Setup fields for processing": {
+                "main": [
+                  [
+                    {
+                      "node": "Add Client Details Record to Google Sheet",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Update  Google Sheet record": {
+                "main": [
+                  [
+                    {
+                      "node": "Send a message",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Update  Google Sheet record",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Fillout Trigger - Confirmation": {
+                "main": [
+                  [
+                    {
+                      "node": "If Confirmation Accepted",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Set Status Field - Accepted": {
+                "main": [
+                  [
+                    {
+                      "node": "Update row in Google Sheet - Accepted",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "If Confirmation Accepted": {
+                "main": [
+                  [
+                    {
+                      "node": "Set Status Field - Accepted",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Set Status Field - Rejected",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Set Status Field - Rejected": {
+                "main": [
+                  [
+                    {
+                      "node": "Update row in Google Sheet - Rejected",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Update row in Google Sheet - Accepted": {
+                "main": [
+                  [
+                    {
+                      "node": "Send a message1",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Update row in Google Sheet - Rejected": {
+                "main": [
+                  []
+                ]
+              },
+              "Get Form fields": {
+                "main": [
+                  [
+                    {
+                      "node": "Setup fields for processing",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Get Form fields",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Send a Slack message to Manager": {
+                "main": [
+                  [
+                    {
+                      "node": "Update spreadsheet workflow status - proposal completed1",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Send a Slack message to Manager",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Update spreadsheet workflow status - slack": {
+                "main": [
+                  [
+                    {
+                      "node": "Send a Slack message to Manager",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Update spreadsheet workflow status - slack",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Update spreadsheet workflow status - proposal": {
+                "main": [
+                  [
+                    {
+                      "node": "Search Google Drive for PDF template",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - process",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Send a message": {
+                "main": [
+                  [
+                    {
+                      "node": "Update spreadsheet workflow status - proposal completed",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Send a message",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Update spreadsheet workflow status - proposal completed": {
+                "main": [
+                  [],
+                  [
+                    {
+                      "node": "Stop and Error - Update spreadsheet workflow status - proposal completed",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Search Google Drive for PDF template": {
+                "main": [
+                  [
+                    {
+                      "node": "Search files and folders",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Search Google Drive for PDF template",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "PDFco Api - Replace placeholder text": {
+                "main": [
+                  [
+                    {
+                      "node": "Wait1",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - PDFco Api - Replace placeholder text",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Search files and folders": {
+                "main": [
+                  [
+                    {
+                      "node": "PDFco Api - Replace placeholder text",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Search Google Drive for PDF template1",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Upload PDF file to Google Drive": {
+                "main": [
+                  [
+                    {
+                      "node": "Update  Google Sheet record",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - Search Google Drive for PDF template2",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "HTTP Request to PDF.co": {
+                "main": [
+                  [
+                    {
+                      "node": "Upload PDF file to Google Drive",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ],
+                  [
+                    {
+                      "node": "Stop and Error - HTTP Request to PDF.co",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "Wait1": {
+                "main": [
+                  [
+                    {
+                      "node": "HTTP Request to PDF.co",
+                      "type": "main",
+                      "index": 0
+                    }
+                  ]
+                ]
+              },
+              "LOG_START_WORKFLOW": {
+                "main": [
+                  []
+                ]
+              }
+            },
+            "settings": {
+              "executionOrder": "v1",
+              "timeSavedMode": "fixed",
+              "callerPolicy": "workflowsFromSameOwner",
+              "availableInMCP": false,
+              "errorWorkflow": "uBFlb9p18Z5asHGo"
+            },
+            "pinData": {
+              "Fillout Trigger": [
+                {
+                  "json": {
+                    "submissionId": "33e14112-6a3e-4730-a78d-afa7e99a390a",
+                    "submissionTime": "2026-01-21T17:37:38.738Z",
+                    "lastUpdatedAt": "2026-01-21T17:37:38.738Z",
+                    "questions": {
+                      "c4NhzbNUQDndjrviiWedxK": {
+                        "name": "Company Name",
+                        "value": "Starter Plan Test.xyz"
+                      },
+                      "aVmqNfy99ndVMzWY3NE5Pk": {
+                        "name": "Company Website",
+                        "value": "starter.xyz.com"
+                      },
+                      "i4EpVZ8zGwofnRMkPkRvti": {
+                        "name": "Industry",
+                        "value": "Forestry, Fishing  and Hunting"
+                      },
+                      "7bnH7Kr4A7LLWX37Ni3CLJ": {
+                        "name": "Representative's Name",
+                        "value": "starter planner test4"
+                      },
+                      "2rqFeFKJthvNj1hnF8dNWw": {
+                        "name": "Representative's Email",
+                        "value": "starter@testxyz.com"
+                      },
+                      "9GHB": {
+                        "name": "Pick your Plan",
+                        "value": "starter"
+                      },
+                      "kX6z": {
+                        "name": "I'd like to learn more before deciding. Could your sales team contact me?",
+                        "value": null
+                      }
+                    },
+                    "calculations": {},
+                    "urlParameters": {},
+                    "quiz": {},
+                    "documents": {},
+                    "scheduling": {},
+                    "payments": {}
+                  }
+                }
+              ]
+            }
+          },
+          "customData": {}
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get an execution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Fields": {
+      "main": [
+        [
+          {
+            "node": "Process Execution Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Execution Data": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get an execution": {
+      "main": [
+        [
+          {
+            "node": "Set Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Error Type Classifier",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error Type Classifier": {
+      "main": [
+        [
+          {
+            "node": "Set INVALID_DATA",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set AUTH_FAILED",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set API_TIMEOUT",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set RATE_LIMIT",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set CONNECTION_ERROR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Set ERROR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set AUTH_FAILED": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Set API_TIMEOUT": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Set CONNECTION_ERROR": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Set ERROR": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 6
+          },
+          {
+            "node": "Set SUCCESS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Type Classifier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set SUCCESS": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "Set INVALID_DATA": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set RATE_LIMIT": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "aca01cbe-1f2a-401c-8076-0bb0b06d3a3f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "22430251e53e6ded5bd69213a759c799c31970fb4d232eb446e9b0ed03bc4769"
+  },
+  "id": "9G18lPvBeZvxDytn",
+  "tags": [
+    {
+      "updatedAt": "2026-01-14T20:22:35.675Z",
+      "createdAt": "2026-01-14T20:22:35.675Z",
+      "id": "4xYeJBrHYFHV1uyq",
+      "name": "Internship"
+    },
+    {
+      "updatedAt": "2026-01-14T20:22:46.748Z",
+      "createdAt": "2026-01-14T20:22:46.748Z",
+      "id": "QY4QFPMhcvPFcSl5",
+      "name": "Case 1"
+    }
+  ]
+}

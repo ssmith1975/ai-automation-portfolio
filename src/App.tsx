@@ -13,6 +13,8 @@ import BlogPost from "./pages/BlogPost";
 import UseCase from "./pages/UseCase";
 import UseCasePost from "./pages/UseCasePost";
 import NotFound from "./pages/NotFound";
+import WorkflowPost from "./pages/WorkflowPost";
+import Workflow from "./pages/WorkFlow";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,8 @@ const App = () => (
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="/use-cases" element={<UseCase />} />
           <Route path="/use-cases/:id" element={<UseCasePost />} />
+          <Route path="/workflows" element={<Workflow />} />
+          <Route path="/workflows/:id" element={<WorkflowPost />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -6,7 +6,7 @@ import ImageZoom from "@/components/ui/imageZoom";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import { N8nDemoComponent } from "@/components/ui/n8n-demo-component";
-import { documentProcessingWorkflow } from "@/data/json-workflows/workflow-document-processing";
+//import { documentProcessingWorkflow } from "@/data/json-workflows/workflow-document-processing";
 import { getWorkflowsByUseCaseId } from "@/data/workflows";
 import ImageZoomForMarkdown from "@/components/ui/imageZoomForMarkdown";
 import RenderMarkdown from "@/components/ui/render-markdown";
@@ -118,7 +118,7 @@ const UseCasePost = () => {
                 {getWorkflowsByUseCaseId(post.id).map((workflow) => (
                   <Link
                     key={workflow.id}
-                    to={`/`}
+                    to={`/workflows/${workflow.id}`}
                     className="group"
                   >
                     <div className="w-full h-48 mb-4 overflow-hidden">
@@ -132,7 +132,7 @@ const UseCasePost = () => {
                       {workflow.name}
                     </h4>
                     <p className="text-minimal text-muted-foreground">
-                      {workflow.description}
+                      {workflow.excerpt}
                     </p>
                   </Link>
                 ))}
@@ -144,21 +144,21 @@ const UseCasePost = () => {
                     (p) => p.id !== post.id && p.category === post.category,
                   )
                   .slice(0, 2)
-                  .map((relatedWorkflow) => (
+                  .map((relatedUseCase) => (
                     <Link
-                      key={relatedWorkflow.id}
-                      to={`/use-cases/${relatedWorkflow.id}`}
+                      key={relatedUseCase.id}
+                      to={`/use-case/${relatedUseCase.id}`}
                       className="group"
                     >
                       <div className="w-full h-48 mb-4 overflow-hidden">
                         <img
-                          src={relatedWorkflow.image}
-                          alt={relatedWorkflow.title}
+                          src={relatedUseCase.image}
+                          alt={relatedUseCase.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                       </div>
                       <h4 className="text-lg font-light text-architectural group-hover:text-muted-foreground transition-colors duration-300 mb-2">
-                        {relatedWorkflow.title}
+                        {relatedUseCase.title}
                       </h4>
   
                     </Link>

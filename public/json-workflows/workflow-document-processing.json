@@ -1,4 +1,4 @@
-export const documentProcessingWorkflow = {
+{
   "name": "Document Processing - Clean Up",
   "nodes": [
     {
@@ -3809,6 +3809,6 @@ export const documentProcessingWorkflow = {
   ]
 }
 
-;
+
 
 
