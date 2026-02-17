@@ -1,5 +1,5 @@
-'use client';
-//import { promises as fs } from 'fs';
+"use client";
+
 import { useParams, Link, useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import "react-medium-image-zoom/dist/styles.css";
@@ -11,29 +11,32 @@ import { useState, useEffect } from "react";
 const WorkflowPost = () => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  const workflow = getWorkflowById(id);
-  const relatedWorkflows = getWorkflowsByUseCaseId(workflow.useCaseId).filter(
-    (wf) => wf.id !== workflow.id,
-  );
-
-  const [jsonPath, setJsonPath] = useState(workflow.json);
-  const [json, setJson] = useState(null);
+  
+  
+  
+  const [workflow, setWorkflow] = useState(null);
+  const [json, setJson] = useState({});
+  
+  let relatedWorkflows = [];
 
   useEffect(() => {
     async function fetchData() {
-      // Fetch the file using its public URL path
-      const res = await fetch(jsonPath);
-      const jsonData = await res.json();
-      //console.log("Fetched JSON data:", jsonData); // Log the fetched JSON data
-       window.scrollTo(0, 0);
-      setJson(jsonData);
-    }
-    fetchData();
-  }, [location.pathname, jsonPath]);
+      const wf = getWorkflowById(id);
+      setWorkflow(wf);
 
-  const setWorkflowJson = (jsonPath) => {
-    setJsonPath(jsonPath);
-  };
+      if (wf && wf.json) {
+        setJson({}); // Clear previous json while loading new one
+        const res = await fetch(wf.json);
+        const jsonData = await res.json();
+        window.scrollTo(0, 0);
+        setJson(jsonData);
+      } else {
+        setJson({});
+      }
+    }
+
+    fetchData();
+  }, [id]); // Re-run the effect when the workflow id changes
 
   if (!workflow) {
     return (
@@ -57,6 +60,10 @@ const WorkflowPost = () => {
       </div>
     );
   }
+
+  relatedWorkflows = getWorkflowsByUseCaseId(workflow.useCaseId).filter(
+    (wf) => wf.id !== workflow.id,
+  );
 
   return (
     <div className="min-h-screen bg-background">
@@ -98,7 +105,8 @@ const WorkflowPost = () => {
 
             <div className="mt-20 w-full">
               <N8nDemoComponent
-                title="Document Processing Workflow Demo"
+                key={workflow.id}
+                title={workflow.name}
                 workflowJson={json}
               />
             </div>
@@ -114,8 +122,8 @@ const WorkflowPost = () => {
                   relatedWorkflows.map((workflow) => (
                     <Link
                       key={workflow.id}
-                      to={'/workflows/' + workflow.id}
-                      onClick={() =>  window.location.reload()}                     
+                      to={"/workflows/" + workflow.id}
+                      // onClick={() =>  window.location.reload()}
                       className="group"
                     >
                       <div className="w-full h-48 mb-4 overflow-hidden">
@@ -147,9 +155,5 @@ const WorkflowPost = () => {
       </article>
     </div>
   );
-
-
-  
-
-}
+};
 export default WorkflowPost;

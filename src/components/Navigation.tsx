@@ -21,6 +21,10 @@ const Navigation = () => {
           <a href="/use-cases" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
             USE CASES
           </a>
+          <a href="/workflows" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
+            WORKFLOWS
+          </a>
+
           <a href="/about" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300">
             ABOUT
           </a>

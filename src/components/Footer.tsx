@@ -4,12 +4,18 @@ const Footer = () => {
 
         <footer className="bg-background text-center py-6 mt-12 border-t border-border">
             <div className="mb-4">
+                <a  href="/" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
+                    HOME
+                </a>
                 <a href="/#services" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
                     SERVICES
                 </a>
                 <a href="/use-cases" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
                     USE CASES
                 </a>
+                <a href="/workflows" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
+                    WORKFLOWS
+                </a>    
                 <a href="/about" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
                     ABOUT
                 </a>
