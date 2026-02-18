@@ -10,7 +10,7 @@ const Navigation = () => {
       <div className="container mx-auto px-6 py-4 flex items-center justify-between">
         <div className="text-minimal text-foreground">
           <a href="/" className="hover:text-muted-foreground transition-colors duration-300">
-            SSMITH1975-AI.dev
+            AI Automation Portfolio
           </a>
         </div>
         

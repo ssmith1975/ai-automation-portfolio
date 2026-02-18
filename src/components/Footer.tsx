@@ -19,9 +19,9 @@ const Footer = () => {
                 <a href="/about" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
                     ABOUT
                 </a>
-                <a href="/blog" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
+                {/* <a href="/blog" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
                     BLOG
-                </a>
+                </a> */}
                 <a href="/contact" className="text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 mx-2">
                     CONTACT
                 </a>        

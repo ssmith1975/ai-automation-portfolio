@@ -11,10 +11,10 @@ const Hero = () => {
       
       {/* Content */}
       <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-        <h1 className="text-6xl md:text-8xl lg:text-8xl font-light text-white text-architectural mb-8 reveal"><em>ssmith1975-ai.dev</em><br />
-          AI SHOWCASE
+        <h1 className="text-6xl md:text-8xl lg:text-8xl font-light text-white text-architectural mb-8 reveal">
+          AI Automation Portfolio
         </h1>
-        <p className="text-xl md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto reveal-delayed">Demonstrating my technical capabilities</p>
+        <p className="text-xl md:text-2xl text-white/80 font-light tracking-wide max-w-2xl mx-auto reveal-delayed">Showcasing emerging AI technoligies - by <strong>Samantha Smith</strong></p>
       </div>
       
       {/* Scroll Indicator */}
