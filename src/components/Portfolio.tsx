@@ -1,4 +1,4 @@
-import project1 from "@/assets/document-processing-800x600.jpg";
+import project1 from "@/assets/document-processing/document-processing-800x600.jpg";
 import project2 from "@/assets/project-2.jpg";
 import project3 from "@/assets/project-3.jpg";
 import UseCaseList from "./UseCaseList";

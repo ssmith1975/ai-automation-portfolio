@@ -15,6 +15,7 @@ import UseCasePost from "./pages/UseCasePost";
 import NotFound from "./pages/NotFound";
 import WorkflowPost from "./pages/WorkflowPost";
 import Workflow from "./pages/WorkFlow";
+import ScrollToTop from "./components/ui/scroll-to-top";
 
 const queryClient = new QueryClient();
 
@@ -24,24 +25,28 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/work" element={<Work />} />
-          {/* <Route path="/services" element={<Services />} /> */}
-          <Route path="/#services" element={<Index />} />
-          <Route path="/about" element={<About />} />
-         
-          <Route path="/contact" element={<Contact />} />
-         
-          {/* <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:id" element={<BlogPost />} /> */}
-          <Route path="/use-cases" element={<UseCase />} />
-          <Route path="/use-cases/:id" element={<UseCasePost />} />
-          <Route path="/workflows" element={<Workflow />} />
-          <Route path="/workflows/:id" element={<WorkflowPost />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <ScrollToTop>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/work" element={<Work />} />
+            {/* <Route path="/services" element={<Services />} /> */}
+            <Route path="/#services" element={<Index />} />
+            <Route path="/about" element={<About />} />
+          
+            <Route path="/contact" element={<Contact />} />
+          
+            {/* <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} /> */}
+            <Route path="/use-cases" element={<UseCase />} />
+            <Route path="/use-cases/:id" element={<UseCasePost />} />
+            <Route path="/workflows" element={<Workflow />} />
+            <Route path="/workflows/:id" element={<WorkflowPost />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>          
+        </ScrollToTop>
+
+
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

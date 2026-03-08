@@ -1,19 +1,16 @@
-import placeholder from "@/assets/blog-urban-planning.jpg";
+import {
+  documentProcessingThumbnail,
+  documentProcessingErrorHandlingThumbnail,
+  documentProcessingLoggingThumbnail,
+  documentProcessingWorkflow,
+  documentProcessingWorkflowErrorHandling,
+  documentProcessingWorkflowLogging,
+} from "./use-cases/document-processing";
 
-//import documentProcessingWorkflow from "@/data/json-workflows/workflow-document-processing.json";
-import documentProcessingThumbnail from "@/assets/workflow-document-processing.png";
-
-//import documentProcessingWorkflowErrorHandling  from "@/data/json-workflows/workflow-document-processing-error-handling.json";
-import documentProcessingErrorHandlingThumbnail from "@/assets/workflow-document-processing-error-handling.png";
-
-//import documentProcessingWorkflowLogging  from "./json-workflows/workflow-document-processing-logging.json";
-import documentProcessingLoggingThumbnail from "@/assets/workflow-document-processing-logging.png";
-import { json } from "react-router-dom";
-
-const documentProcessingWorkflow = "/json-workflows/workflow-document-processing.json";
-const documentProcessingWorkflowErrorHandling  = "/json-workflows/workflow-document-processing-error-handling.json";
-const documentProcessingWorkflowLogging  = "/json-workflows/workflow-document-processing-logging.json";
-
+import {
+  aiVoiceAgentWorkflow,
+  aiVoiceAgentWorkflowThumbnail,
+} from "./use-cases/ai-voice-agent";
 
 export interface Workflow {
   id: string;
@@ -40,7 +37,7 @@ export const workflows = [
     json: documentProcessingWorkflow,
     thumbnail: documentProcessingThumbnail,
     date: "2026-02-09",
-    category: "Document Processing"
+    category: "Document Processing",
   },
   {
     id: "document-processing-workflow-error-handling",
@@ -54,7 +51,7 @@ export const workflows = [
     json: documentProcessingWorkflowErrorHandling,
     thumbnail: documentProcessingErrorHandlingThumbnail,
     date: "2026-02-09",
-    category: "Document Processing"
+    category: "Document Processing",
   },
   {
     id: "document-processing-workflow-logging",
@@ -68,8 +65,22 @@ export const workflows = [
     json: documentProcessingWorkflowLogging,
     thumbnail: documentProcessingLoggingThumbnail,
     date: "2026-02-09",
-    category: "Document Processing"
-  }
+    category: "Document Processing",
+  },
+  {
+    id: "ai-voice-agent-workflow",
+    excerpt: "AI Voice Agent Workflow",
+    description: `An automated workflow for handling inbound lead qualification using an AI voice agent. The workflow captures caller information, extracts key data points, categorizes leads based on predefined criteria, and syncs the data to a centralized database for sales team follow-up.
+      The workflow includes integration with Retell AI for voice interactions, n8n for automation, Supabase for database storage, and a dashboard interface for real-time lead monitoring.    
+      This workflow is designed to improve lead qualification efficiency, reduce manual data entry, and ensure timely follow-up on high-value prospects.
+    `,
+    useCaseId: "ai-voice-agent",
+    name: "AI Voice Agent Workflow",
+    json: aiVoiceAgentWorkflow,
+    thumbnail: aiVoiceAgentWorkflowThumbnail,
+    date: "2026-03-7",
+    category: "AI Voice Agent",
+  },
 ];
 
 export const getWorkflowById = (id: string) => {

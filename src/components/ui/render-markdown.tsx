@@ -1,70 +1,56 @@
 import Zoom from "react-medium-image-zoom";
 
+
+function renderMarkdownBold(mdText) {
+  // Replace **some text** with <strong>some text</strong>
+  return mdText.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+}
+
+function renderMarkdownItalic(mdText) {
+  // Replace _some text_ with <em>some text</em>
+  return mdText.replace(/\_\_(.+?)\_\_/g, '<em>$1</em>');
+}
+
 const RenderMarkdown = ({ line }) => {
-  if (line.startsWith("# ")) {
-    // H1
 
-    return (
-      <h1 className="text-3xl md:text-4xl font-light text-architectural mb-8">
-        {line.substring(2)}
-      </h1>
-    );
-  } else if (line.startsWith("## ")) {
-    // H2
+   let processedLine = line; 
 
-    return (
-      <h2 className="text-2xl md:text-3xl font-light text-architectural mb-6 mt-12">
-        <span className="pt-4">{line.substring(3)} </span>
-       
-      </h2>
-    );
-  } else if (line.startsWith("### ")) {
-    // H3
-
-    return (
-      <h3 className="text-xl md:text-2xl font-medium text-foreground mb-4 mt-10">
-        {line.substring(4)}
-      </h3>
-    );
-  } else if (
-    // List item with bold text
-    line.startsWith("- **") &&
-    line.endsWith("**")
-  ) {
-    const content = line.substring(4, line.length - 2);
-    return (
-      <li className="ml-10 mt-0 mb-0 pt-0">
-        <strong className="text-foreground">{content}</strong>
-      </li>
-    );
-  } else if (line.startsWith("- ") || line.startsWith("* ")) {
-    // Regular list item
-
-    return <li className="ml-6 mb-0">{line.substring(2)}</li>;
-  } else if (line.trim() === "") {
+    if (line.trim() === "") {
     // Empty line
 
-    return;
-  } else if (line.startsWith("**") && line.endsWith("**")) {
-    // Bold paragraph
+        return;
+    }
 
-    return (
-      <p className="mb-2 columns-2 gap-8">
-        <strong className="text-foreground">
-          {line.substring(2, line.length - 2)}
-        </strong>
-      </p>
-    );
-  } else if (line.startsWith("__") && line.endsWith("__")) {
-    // Bold paragraph
+    if (line.startsWith("# ")) {
+        // H1
 
-    return (
-      <p className="mb-0">
-        <em className="text-foreground">
-          {line.substring(2, line.length - 2)}
-        </em>
-      </p>
-    );
+        processedLine =  (
+        <h1 className="text-3xl md:text-4xl font-light text-architectural mb-8">
+            {line.substring(2)}
+        </h1>
+        );
+    } else if (line.startsWith("## ")) {
+        // H2
+
+        processedLine =  (
+        <h2 className="text-2xl md:text-3xl font-light text-architectural mb-6 mt-12">
+            <span className="pt-4">{line.substring(3)} </span>
+        
+        </h2>
+        );
+    } else if (line.startsWith("### ")) {
+        // H3
+
+        processedLine =  (
+        <h3 className="text-xl md:text-2xl font-medium text-foreground mb-4 mt-10">
+            {line.substring(4)}
+        </h3>
+        );
+    } else if (line.startsWith("- ") || line.startsWith("* ")) {
+    // list item
+    const listItemContent = renderMarkdownItalic(renderMarkdownBold(line.substring(2)));
+    return <li className="ml-6 mb-0" dangerouslySetInnerHTML={{ __html: listItemContent }} />;
+ 
   } else if (
     //Link
     line.startsWith("[") &&
@@ -75,7 +61,7 @@ const RenderMarkdown = ({ line }) => {
 
     const linkUrl = line.substring(line.indexOf("](") + 2, line.length - 1);
 
-    return (
+    processedLine =  (
       <a
         href={linkUrl}
         className="text-architectural text-blue-400 underline hover:text-muted-foreground transition-colors duration-300"
@@ -94,7 +80,7 @@ const RenderMarkdown = ({ line }) => {
 
     const imageUrl = line.substring(line.indexOf("](") + 2, line.length - 1);
 
-    return (
+    processedLine =  (
       <div className="w-full h-full object-cover">
         <figure>
           <Zoom>
@@ -110,9 +96,26 @@ const RenderMarkdown = ({ line }) => {
         </figure>
       </div>
     );
-  } else {
-    return <p className="mt-3 mb-0">{line}</p>;
+  } else if (line.startsWith("'''") && line.endsWith("'''")) {
+    
+    processedLine =  (
+       
+            <code className="bg-muted p-4 rounded-md overflow-x-auto block whitespace-pre">
+                {line.substring(3, line.length - 3)}
+            </code> 
+        );
   }
+  else {
+    const paragraphContent = renderMarkdownItalic(renderMarkdownBold(line));
+    processedLine =  <p className="mt-3 mb-0" dangerouslySetInnerHTML={{ __html: paragraphContent }} />;
+  }
+
+
+  //processedLine = renderMarkdownBold(processedLine);
+  //processedLine = renderMarkdownItalic(processedLine);
+
+  return processedLine;
+
 };
 
 export default RenderMarkdown;

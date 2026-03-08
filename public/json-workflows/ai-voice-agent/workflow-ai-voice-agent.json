@@ -1,0 +1,149 @@
+{
+  "name": "Lesson-17 Voice AI Agent + Website",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "leadcall",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ab6c2332-2109-4917-b2f8-ead1c8265876",
+      "name": "Webhook",
+      "webhookId": "a927b315-0c36-4d85-85ee-6e328b0d12f6"
+    },
+    {
+      "parameters": {
+        "tableId": "leads",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "name",
+              "fieldValue": "={{ $json.body.name }}"
+            },
+            {
+              "fieldId": "email",
+              "fieldValue": "={{ $json.body.email }}"
+            },
+            {
+              "fieldId": "company",
+              "fieldValue": "={{ $json.body.company }}"
+            },
+            {
+              "fieldId": "budget",
+              "fieldValue": "={{ $json.body.budget.toNumber() }}"
+            },
+            {
+              "fieldId": "requests",
+              "fieldValue": "={{ $json.body.requests }}"
+            },
+            {
+              "fieldId": "urgency",
+              "fieldValue": "={{ $json.body.urgency }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        176,
+        0
+      ],
+      "id": "9c2ae4f3-9c98-46c3-8e97-414911c5b0c9",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "Q2yHcZEmIlhwfle1",
+          "name": "Supabase account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.ssmith-ai.tech",
+            "user-agent": "axios/1.13.2",
+            "content-length": "148",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "x-forwarded-for": "100.20.5.228",
+            "x-forwarded-host": "n8n.ssmith-ai.tech",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "7d6614a6bf1f",
+            "x-real-ip": "100.20.5.228",
+            "x-retell-signature": "v=1772516555296,d=cb0bc1a055b3c2aa495af5241e9d7bfcba2bc0379ff6d56a54f3a0cb428834a0"
+          },
+          "params": {},
+          "query": {
+            "name": "{{name}}",
+            "company": "{{company}}",
+            "requests": "{{requests}}",
+            "urgency": "{{urgency}}",
+            "email": "{{email}}",
+            "budget": "{{budget}}"
+          },
+          "body": {
+            "name": "Molly",
+            "company": "Miss Molly",
+            "requests": "Automate administration division",
+            "urgency": "mid_lead",
+            "email": "molly@acme.org",
+            "budget": "2000"
+          },
+          "webhookUrl": "https://n8n.ssmith-ai.tech/webhook/leadcall",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "2d051950-dfef-41ec-8ace-0cf7d7589f9a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6ce4fbac823eb845d81a61ee6274f32a2085c54aad44b909576ff986ae0f7fbf"
+  },
+  "id": "lmeL4bT8w329pLjO",
+  "tags": [
+    {
+      "updatedAt": "2026-02-20T07:23:38.034Z",
+      "createdAt": "2026-02-20T07:23:38.034Z",
+      "id": "R23ChKG1Gcfp2ko3",
+      "name": "Module-05"
+    },
+    {
+      "updatedAt": "2026-02-20T07:29:12.366Z",
+      "createdAt": "2026-02-20T07:29:12.366Z",
+      "id": "fE9Nn5NRBdndCFZM",
+      "name": "Lesson-17"
+    }
+  ]
+}

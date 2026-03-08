@@ -1,31 +1,25 @@
 import { useParams, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { useCasePosts } from "@/data/useCasePosts";
-import ImageZoom from "@/components/ui/imageZoom";
-//import { ImageZoom } from "@/components/ui/imageZoom";
-import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
-import { N8nDemoComponent } from "@/components/ui/n8n-demo-component";
-//import { documentProcessingWorkflow } from "@/data/json-workflows/workflow-document-processing";
 import { getWorkflowsByUseCaseId } from "@/data/workflows";
-import ImageZoomForMarkdown from "@/components/ui/imageZoomForMarkdown";
 import RenderMarkdown from "@/components/ui/render-markdown";
+//import Divider from "@/components/ui/divider";
+import SubFeatureBlock from "@/components/ui/sub-feature-block";
 
 const UseCasePost = () => {
   const { id } = useParams<{ id: string }>();
   const post = useCasePosts.find((p) => p.id === id);
 
   const displayImage = (src: string, alt: string, width?: string) => {
-
-    const createdImage = 
-      `<img 
+    const createdImage = `<img 
       src="${src}"
       alt="${alt}"
-      style={${ width }} 
+      style={${width}} 
       className="w-full h-auto object-cover" 
     
     />`;
-  
+
     //return <Zoom>{createdImage}</Zoom>;
 
     return createdImage;
@@ -53,6 +47,8 @@ const UseCasePost = () => {
       </div>
     );
   }
+
+  const workflows = getWorkflowsByUseCaseId(id);
 
   return (
     <div className="min-h-screen bg-background">
@@ -83,13 +79,13 @@ const UseCasePost = () => {
                 {post.title}
               </h1>
 
-              <p className="text-xl text-muted-foreground leading-relaxed">
+              <p className="text-2xl text-muted-foreground leading-relaxed">
                 {post.excerpt}
               </p>
             </div>
 
             {/* Featured Image */}
-            <div className="w-full h-96 mb-12 overflow-hidden">
+            <div className="w-full h-96 mb-20 overflow-hidden">
               <img
                 src={post.image}
                 alt={post.title}
@@ -99,46 +95,52 @@ const UseCasePost = () => {
 
             {/* Article Content */}
             <div className="prose prose-lg max-w-none">
-              <div
-                className="text-muted-foreground leading-relaxed space-y-6">
-                  {post.content.split("\n").map((line, index) => (
-                        <RenderMarkdown key={index} line={line} />
-                  ))}
-              </div>
-  
-            </div>
-
-            {/* Related Posts */}
-            <div className="mt-20">
-              <h3 className="text-2xl font-light text-architectural mb-8">
-                Related Workflows
-              </h3>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                {getWorkflowsByUseCaseId(post.id).map((workflow) => (
-                  <Link
-                    key={workflow.id}
-                    to={`/workflows/${workflow.id}`}
-                    className="group"
-                  >
-                    <div className="w-full h-48 mb-4 overflow-hidden">
-                      <img
-                        src={workflow.thumbnail}
-                        alt={workflow.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                    </div>
-                    <h4 className="text-lg font-light text-architectural group-hover:text-muted-foreground transition-colors duration-300 mb-2">
-                      {workflow.name}
-                    </h4>
-                    <p className="text-minimal text-muted-foreground">
-                      {workflow.excerpt}
-                    </p>
-                  </Link>
+              <div className="text-muted-foreground leading-relaxed space-y-6 text-lg">
+                {post.content.split("\n").map((line, index) => (
+                  <RenderMarkdown key={index} line={line} />
                 ))}
               </div>
+            </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
+            {/* Related Workflows */}
+
+            <SubFeatureBlock title="Related Workflows">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+                {workflows &&
+                  workflows.map((workflow) => (
+                    <Link
+                      key={workflow.id}
+                      to={`/workflows/${workflow.id}`}
+                      className="group"
+                    >
+                      <div className="w-full h-48 mb-4 overflow-hidden">
+                        <img
+                          src={workflow.thumbnail}
+                          alt={workflow.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        />
+                      </div>
+                      <h4 className="text-lg font-light text-architectural group-hover:text-muted-foreground transition-colors duration-300 mb-2">
+                        {workflow.name}
+                      </h4>
+                      <p className="text-minimal text-muted-foreground">
+                        {workflow.excerpt}
+                      </p>
+                    </Link>
+                  ))}
+
+                {!workflows ||
+                  (workflows.length === 0 && (
+                    <p className="text-muted-foreground">
+                      No related workflows found for this use case.
+                    </p>
+                  ))}
+              </div>
+            </SubFeatureBlock>
+
+            {/* Related Use Cases */}
+            <SubFeatureBlock title="Related Use Cases">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
                 {useCasePosts
                   .filter(
                     (p) => p.id !== post.id && p.category === post.category,
@@ -147,9 +149,8 @@ const UseCasePost = () => {
                   .map((relatedUseCase) => (
                     <Link
                       key={relatedUseCase.id}
-                      to={`/use-case/${relatedUseCase.id}`}
-                      className="group"
-                    >
+                      to={`/use-cases/${relatedUseCase.id}`}
+                      className="group" >
                       <div className="w-full h-48 mb-4 overflow-hidden">
                         <img
                           src={relatedUseCase.image}
@@ -160,11 +161,10 @@ const UseCasePost = () => {
                       <h4 className="text-lg font-light text-architectural group-hover:text-muted-foreground transition-colors duration-300 mb-2">
                         {relatedUseCase.title}
                       </h4>
-  
                     </Link>
                   ))}
               </div>
-            </div>
+            </SubFeatureBlock>
           </div>
         </div>
       </article>
