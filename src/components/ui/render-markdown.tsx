@@ -25,7 +25,7 @@ const RenderMarkdown = ({ line }) => {
         // H1
 
         processedLine =  (
-        <h1 className="text-3xl md:text-4xl font-light text-architectural mb-8">
+        <h1 className="text-3xl md:text-4xl font-light text-architectural mb-8 mt-20 dark:text-sky-600">
             {line.substring(2)}
         </h1>
         );
@@ -33,7 +33,7 @@ const RenderMarkdown = ({ line }) => {
         // H2
 
         processedLine =  (
-        <h2 className="text-2xl md:text-3xl font-light text-architectural mb-6 mt-12">
+        <h2 className="text-2xl md:text-3xl font-light text-architectural mb-6 mt-18 pt-10 text-sky-600 dark:text-sky-200">
             <span className="pt-4">{line.substring(3)} </span>
         
         </h2>
@@ -42,14 +42,14 @@ const RenderMarkdown = ({ line }) => {
         // H3
 
         processedLine =  (
-        <h3 className="text-xl md:text-2xl font-medium text-foreground mb-4 mt-10">
+        <h3 className="text-xl md:text-2xl font-medium text-foreground mb-4 mt-14">
             {line.substring(4)}
         </h3>
         );
     } else if (line.startsWith("- ") || line.startsWith("* ")) {
     // list item
     const listItemContent = renderMarkdownItalic(renderMarkdownBold(line.substring(2)));
-    return <li className="ml-6 mb-0" dangerouslySetInnerHTML={{ __html: listItemContent }} />;
+    return <li className="ml-6 mb-0 marker:text-sky-500 marker:text-2xl" dangerouslySetInnerHTML={{ __html: listItemContent }} />;
  
   } else if (
     //Link
@@ -64,7 +64,7 @@ const RenderMarkdown = ({ line }) => {
     processedLine =  (
       <a
         href={linkUrl}
-        className="text-architectural text-blue-400 underline hover:text-muted-foreground transition-colors duration-300"
+        className="text-architectural text-blue-400 underline hover:text-muted-foreground transition-colors duration-300 after:content-['_↗']"
         target="_blank"
       >
         {linkText}
@@ -81,16 +81,16 @@ const RenderMarkdown = ({ line }) => {
     const imageUrl = line.substring(line.indexOf("](") + 2, line.length - 1);
 
     processedLine =  (
-      <div className="w-full h-full object-cover">
+      <div className="w-full h-full object-cover pt-10">
         <figure>
           <Zoom>
             <img
               src={imageUrl}
               alt={altText}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover p-6 drop-shadow-xl"
             />
-            <figcaption className="text-sm text-muted-foreground">
-              {altText} -- Click on the image to enlarge it.
+            <figcaption className="text-sm text-foreground mt-6 text-center text-italic text-size-2xl">
+              <em>{altText}</em> -- Click on the image to enlarge it.
             </figcaption>
           </Zoom>
         </figure>

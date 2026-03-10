@@ -34,12 +34,12 @@ declare global {
 
   return (
     
-    <div className={`w-full transition-all duration-300 ${isExpanded ? 'fixed inset-0 z-50 p-6 bg-background h-min-screen' : 'border border-border rounded-lg p-6'}`}>
+    <div className={`w-full transition-all duration-300 bg-sky-800 text-white ${isExpanded ? 'fixed inset-0 z-50 p-6 h-min-screen' : 'p-6'}`}>
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-2xl font-light text-architectural">{title}</h3>
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="px-4 py-2 bg-architectural text-foreground hover:bg-opacity-90 transition-all duration-300 rounded"
+          className="px-4 py-2 bg-architectural text-white hover:bg-opacity-90 transition-all duration-300 rounded font-bold"
         >
           {isExpanded ? 'Collapse' : 'Expand'}
         </button>
@@ -49,7 +49,7 @@ declare global {
         <n8n-demo
           clicktointeract="false"
           showpreview="false"
-          frame="true"
+          frame="false"
           showcode="false"
           collapseformobile="true"
           tidyup="true"

@@ -165,6 +165,14 @@ const UseCasePost = () => {
                   ))}
               </div>
             </SubFeatureBlock>
+                        {/* Back Link */}
+            <Link
+              to="/use-cases"
+              className="inline-block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 my-12"
+            >
+              ← BACK TO USE CASE
+            </Link>
+
           </div>
         </div>
       </article>

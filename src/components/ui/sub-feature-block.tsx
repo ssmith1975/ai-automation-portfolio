@@ -1,6 +1,6 @@
 const SubFeatureBlock = ({ children, title }) =>      {
   return (
-       <section className="py-12 bg-muted mt-12">
+       <section className="py-12 bg-muted mt-12 bg-gray-100 dark:bg-sky-600/30 shadow-sm">
          
          <div className="container mx-auto px-6">
            <div className="max-w-4xl mx-auto">

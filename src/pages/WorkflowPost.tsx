@@ -150,6 +150,13 @@ const WorkflowPost = () => {
                   ))}
               </div>
             </div>
+                        {/* Back Link */}
+            <Link
+              to="/workflows"
+              className="inline-block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 my-12"
+            >
+              ← BACK TO WORKFLOWS
+            </Link>
           </div>
         </div>
       </article>

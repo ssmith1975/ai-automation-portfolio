@@ -10,12 +10,28 @@
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
+  cursor:pointer;
+
 }
+
+
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+
+.dark {
+
+}
+
+n8n-demo {
+	--n8n-frame-background-color: black !important;
+	--n8n-json-background-color: lightgray;
+	--n8n-copy-button-background-color: gray;
 }
 
 @keyframes logo-spin {

@@ -69,7 +69,7 @@ export const workflows = [
   },
   {
     id: "ai-voice-agent-workflow",
-    excerpt: "AI Voice Agent Workflow",
+    excerpt: "Webhook for Retell AI voice interactions",
     description: `An automated workflow for handling inbound lead qualification using an AI voice agent. The workflow captures caller information, extracts key data points, categorizes leads based on predefined criteria, and syncs the data to a centralized database for sales team follow-up.
       The workflow includes integration with Retell AI for voice interactions, n8n for automation, Supabase for database storage, and a dashboard interface for real-time lead monitoring.    
       This workflow is designed to improve lead qualification efficiency, reduce manual data entry, and ensure timely follow-up on high-value prospects.
