@@ -4,7 +4,6 @@ import { useCasePosts } from "@/data/useCasePosts";
 import "react-medium-image-zoom/dist/styles.css";
 import { getWorkflowsByUseCaseId } from "@/data/workflows";
 import RenderMarkdown from "@/components/ui/render-markdown";
-//import Divider from "@/components/ui/divider";
 import SubFeatureBlock from "@/components/ui/sub-feature-block";
 
 const UseCasePost = () => {

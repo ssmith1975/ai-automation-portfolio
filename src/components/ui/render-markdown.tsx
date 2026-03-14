@@ -64,7 +64,7 @@ const RenderMarkdown = ({ line }) => {
     processedLine =  (
       <a
         href={linkUrl}
-        className="text-architectural text-blue-400 underline hover:text-muted-foreground transition-colors duration-300 after:content-['_↗']"
+        className="text-architectural cursor-pointer text-blue-400 underline hover:text-muted-foreground transition-colors duration-300 after:content-['_↗']"
         target="_blank"
       >
         {linkText}

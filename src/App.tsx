@@ -4,12 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import Work from "./pages/Work";
-import Services from "./pages/Services";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Blog from "./pages/Blog";
-import BlogPost from "./pages/BlogPost";
 import UseCase from "./pages/UseCase";
 import UseCasePost from "./pages/UseCasePost";
 import NotFound from "./pages/NotFound";
@@ -28,25 +24,17 @@ const App = () => (
         <ScrollToTop>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/work" element={<Work />} />
-            {/* <Route path="/services" element={<Services />} /> */}
             <Route path="/#services" element={<Index />} />
             <Route path="/about" element={<About />} />
-          
             <Route path="/contact" element={<Contact />} />
-          
-            {/* <Route path="/blog" element={<Blog />} />
-            <Route path="/blog/:id" element={<BlogPost />} /> */}
             <Route path="/use-cases" element={<UseCase />} />
             <Route path="/use-cases/:id" element={<UseCasePost />} />
             <Route path="/workflows" element={<Workflow />} />
             <Route path="/workflows/:id" element={<WorkflowPost />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
-          </Routes>          
+          </Routes>
         </ScrollToTop>
-
-
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

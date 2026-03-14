@@ -1,3 +1,9 @@
+
+@import "tailwindcss";
+@theme {
+  --color-mint-500: oklch(0.72 0.11 178);
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -23,10 +29,13 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* .contactbox {
+  background-image: 'url("/assets/background-stripes.svg")';
+  background-repeat: repeat;
+  background-size: cover;
+  background-color: red;
+} */
 
-.dark {
-
-}
 
 n8n-demo {
 	--n8n-frame-background-color: black !important;

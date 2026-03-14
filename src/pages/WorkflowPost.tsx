@@ -28,7 +28,6 @@ const WorkflowPost = () => {
         setJson({}); // Clear previous json while loading new one
         const res = await fetch(wf.json);
         const jsonData = await res.json();
-        window.scrollTo(0, 0);
         setJson(jsonData);
       } else {
         setJson({});

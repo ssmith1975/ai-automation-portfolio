@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '@n8n_io/n8n-demo-component/n8n-demo.bundled.js';
+//import '@n8n_io/n8n-demo-component/n8n-demo.bundled.js';
+//import n8n-demo from '@n8n_io/n8n-demo-component';
 // Add this near the top with other imports
 import "@/styles/n8n-overrides.css";
 

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+    <!-- Tailwind bg-sky-100 is rgb(224 242 254) -->
+    <defs>
+        <pattern id="diagonal-stripes" patternUnits="userSpaceOnUse" width="40" height="40"
+            patternTransform="rotate(45)">
+            <!-- Sky-100 stripe (20px) -->
+            <rect x="0" y="0" width="5" height="40" fill="rgb(224,242,254)" />
+            <!-- White stripe (20px) -->
+            <rect x="5" y="0" width="5" height="40" fill="#ffffff" />
+            <!-- Sky-100 stripe (20px) -->
+            <rect x="10" y="0" width="5" height="40" fill="#fee6e0" />
+            <!-- White stripe (20px) -->
+            <rect x="15" y="0" width="5" height="40" fill="#ffffff" />
+            <!-- Sky-100 stripe (20px) -->
+            <rect x="20" y="0" width="5" height="40" fill="rgb(224,242,254)" />
+            <!-- White stripe (20px) -->
+            <rect x="25" y="0" width="5" height="40" fill="#ffffff" />
+            <!-- Sky-100 stripe (20px) -->
+            <rect x="30" y="0" width="5" height="40" fill="#fee6e0" />
+            <!-- White stripe (20px) -->
+            <rect x="35" y="0" width="5" height="40" fill="#ffffff" />
+        </pattern>
+    </defs>
+
+    <rect width="100%" height="100%" fill="url(#diagonal-stripes)" />
+</svg>

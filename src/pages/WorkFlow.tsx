@@ -1,15 +1,12 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { workflows } from "@/data/workflows";
 
 const Workflow = () => {
- 
-  
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-20">
         <div className="container mx-auto px-6">
@@ -19,13 +16,13 @@ const Workflow = () => {
                 WORKFLOWS
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl">
-                Exploring the transformative impact of AI through real-world applications and workflows.
+                Exploring the transformative impact of AI through real-world
+                applications and workflows.
               </p>
             </div>
           </div>
         </div>
       </section>
-
 
       {/* Use Case Posts Grid */}
       <section className="pb-32">
@@ -59,7 +56,6 @@ const Workflow = () => {
           </div>
         </div>
       </section>
-
     </div>
   );
 };
