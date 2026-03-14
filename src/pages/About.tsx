@@ -91,8 +91,9 @@ const About = () => {
                     <p className="text-xl">40+</p>
                   </div>
 
-                  <div className="py-8">
+                  <div className="mt-12 p-8 bg-color bg-white">
                     <h3 className="text-minimal text-black mb-2">
+                      <span className="text-muted inline-block mb-6">Links</span>
                       <a
                         href="https://github.com/ssmith1975?tab=repositories"
                         aria-label="Visit GitHub profile"
@@ -106,7 +107,7 @@ const About = () => {
                             height="32"
                           />
                         </span>
-                        <span className="inline-block">GITHUB</span>
+                        <span className="inline-block">GITHUB REPOSITORY</span>
                       </a>
                     </h3>
                   </div>
