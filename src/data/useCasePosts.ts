@@ -8,6 +8,12 @@ import {
   aiVoiceAgentCoverImage,
 } from "./use-cases/ai-voice-agent";
 
+import {
+  firecrawlContent,
+  firecrawlCoverImage,
+} from "./use-cases/firecrawl";
+
+
 export interface UseCasePost {
   id: string;
   title: string;
@@ -29,14 +35,25 @@ export const useCasePosts: UseCasePost[] = [
     category: "USE CASES",
     image: documentProcessingCoverImage,
   },
+    {
+      id: "ai-voice-agent",
+      title: "AI Voice Agent for Customer Support",
+      excerpt:
+        "Implementing an AI voice agent to handle customer inquiries, provide support, and improve customer satisfaction.",
+      content: aiVoiceAgentContent,
+      date: "2026-03-05",
+      category: "USE CASES",
+      image: aiVoiceAgentCoverImage,
+    },
   {
-    id: "ai-voice-agent",
-    title: "AI Voice Agent for Customer Support",
+    id: "firecrawl",
+    title: "Automated Competitor Price Monitoring & Intelligence",
     excerpt:
-      "Implementing an AI voice agent to handle customer inquiries, provide support, and improve customer satisfaction.",
-    content: aiVoiceAgentContent,
-    date: "2026-03-05",
+      "Implementing an automated system to track competitor pricing and analyze market positioning.",
+    content: firecrawlContent,
+    date: "2026-03-18",
     category: "USE CASES",
-    image: aiVoiceAgentCoverImage,
-  },
+    image: firecrawlCoverImage,
+  }
+
 ];

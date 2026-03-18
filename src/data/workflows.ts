@@ -12,6 +12,13 @@ import {
   aiVoiceAgentWorkflowThumbnail,
 } from "./use-cases/ai-voice-agent";
 
+import {
+  firecrawlWorkflowMain,
+  firecrawlWorkflowSub,
+  firecrawlWorkflowMainThumbnail,
+  firecrawlWorkflowSubThumbnail
+} from "./use-cases/firecrawl";
+
 export interface Workflow {
   id: string;
   description: string;
@@ -81,7 +88,35 @@ export const workflows = [
     date: "2026-03-7",
     category: "AI Voice Agent",
   },
-];
+   {
+    id: "firecrawl-main-workflow",
+    excerpt: "Main workflow for Firecrawl competitor price monitoring",
+    description: `An automated workflow for handling inbound lead qualification using an AI voice agent. The workflow captures caller information, extracts key data points, categorizes leads based on predefined criteria, and syncs the data to a centralized database for sales team follow-up.
+      The workflow includes integration with Retell AI for voice interactions, n8n for automation, Supabase for database storage, and a dashboard interface for real-time lead monitoring.    
+      This workflow is designed to improve lead qualification efficiency, reduce manual data entry, and ensure timely follow-up on high-value prospects.
+    `,
+    useCaseId: "firecrawl",
+    name: "Firecrawl Main Workflow",
+    json: firecrawlWorkflowMain,
+    thumbnail: firecrawlWorkflowMainThumbnail,
+    date: "2026-03-18",
+    category: "Firecrawl",
+  },
+  {
+    id: "firecrawl-sub-workflow",
+    excerpt: "Sub-workflow for Firecrawl competitor price monitoring",
+    description: `An automated workflow for handling inbound lead qualification using an AI voice agent. The workflow captures caller information, extracts key data points, categorizes leads based on predefined criteria, and syncs the data to a centralized database for sales team follow-up.
+      The workflow includes integration with Retell AI for voice interactions, n8n for automation, Supabase for database storage, and a dashboard interface for real-time lead monitoring.    
+      This workflow is designed to improve lead qualification efficiency, reduce manual data entry, and ensure timely follow-up on high-value prospects.
+    `,
+    useCaseId: "firecrawl",     
+    name: "Firecrawl Sub Workflow",
+    json: firecrawlWorkflowSub,
+    thumbnail: firecrawlWorkflowSubThumbnail,
+    date: "2026-03-18",
+    category: "Firecrawl",
+  },  
+];  
 
 export const getWorkflowById = (id: string) => {
   return workflows.find((workflow) => workflow.id === id);

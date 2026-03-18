@@ -1,0 +1,968 @@
+{
+  "name": "Lesson-18 Main - Firecrawl – Getting LLM-Ready Web Data",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        816
+      ],
+      "id": "81a316ec-e737-4605-9529-4d617441b663",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1_2v_XXLyZFdyETOpP4WSiD5RMFTriOeS7bYjcQkkoMc",
+          "mode": "list",
+          "cachedResultName": "Lesson 18 price monitoring",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_2v_XXLyZFdyETOpP4WSiD5RMFTriOeS7bYjcQkkoMc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Price Monitoring Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_2v_XXLyZFdyETOpP4WSiD5RMFTriOeS7bYjcQkkoMc/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1552,
+        816
+      ],
+      "id": "4582235a-c96a-4898-9afa-04073991aa2b",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ze9rkpe3gwspo0d8",
+          "name": "google-api-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "90386332-3170-42a6-8a29-7cac321de9e4",
+              "leftValue": "={{ $json.url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1872,
+        816
+      ],
+      "id": "2f62e159-e14f-40c5-b318-84d3e0750595",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1_2v_XXLyZFdyETOpP4WSiD5RMFTriOeS7bYjcQkkoMc",
+          "mode": "list",
+          "cachedResultName": "Lesson 18 price monitoring",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_2v_XXLyZFdyETOpP4WSiD5RMFTriOeS7bYjcQkkoMc/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Price Monitoring Data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1_2v_XXLyZFdyETOpP4WSiD5RMFTriOeS7bYjcQkkoMc/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Competitor URL": "={{ $json.Link }}",
+            "Our Price ($)": "={{ $json.our_price }}",
+            "In Stock": "={{ $json.in_stock }}",
+            "Last Checked": "={{ $json.last_checked }}",
+            "Price Difference ($)": "={{ $json.price_difference }}",
+            "Price Difference (%)": "={{ $json.price_diff_percent }}",
+            "Competitor Price ($)": "={{ $json.price }}"
+          },
+          "matchingColumns": [
+            "Competitor URL"
+          ],
+          "schema": [
+            {
+              "id": "Competitor URL",
+              "displayName": "Competitor URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Our Price ($)",
+              "displayName": "Our Price ($)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "In Stock",
+              "displayName": "In Stock",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Competitor Price ($)",
+              "displayName": "Competitor Price ($)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Last Checked",
+              "displayName": "Last Checked",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Price Difference ($)",
+              "displayName": "Price Difference ($)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Price Difference (%)",
+              "displayName": "Price Difference (%)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2272,
+        704
+      ],
+      "id": "0b5435f8-27f4-44c3-8899-3e1641981bc0",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "ze9rkpe3gwspo0d8",
+          "name": "google-api-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2064,
+        992
+      ],
+      "id": "1e3f2c7d-35bc-40eb-8f74-740170dfec4e",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "url",
+        "key": "=price_cache:{{ $json['Competitor URL'] }}",
+        "keyType": "string",
+        "options": {
+          "dotNotation": false
+        }
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1712,
+        816
+      ],
+      "id": "cd2c55fa-340d-4b5e-9c0c-677a950a705f",
+      "name": "Redis",
+      "credentials": {
+        "redis": {
+          "id": "DTel7RAIIZmszinX",
+          "name": "redis-api-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Business Case: Automated Competitor Price Monitoring\nThis project implements a system for regular tracking of competitor pricing and analyzing market positioning (Price Intelligence). The solution is divided into two linked workflows (Main + Sub) to ensure modularity and efficiency.\n\nKey Logic:\n\nData Source (Google Sheets): The system retrieves the product list (Competitor URL and our current price) from a spreadsheet.\n\nOptimization (Redis): Caching is implemented via Redis. Before parsing, the system checks the cache: if data for a specific URL was recently retrieved (6-hour TTL), the system skips the re-scrape to save API resources and time.\n\nData Collection (Firecrawl + Sub-workflow): If data is missing from the cache, a sub-workflow is triggered. The Firecrawl service is used to convert the target web page into Markdown.\n\nIntelligent Analysis (AI Agent): The generated Markdown is processed by an LLM (via OpenRouter/Gemini). The Agent extracts structured data:\n\nThe actual price (intelligently ignoring old prices or \"compare at\" values).\n\nStock status (In Stock/Out of Stock).\n\nProduct name.\n\nAnalytics: A script automatically calculates the price difference (in both currency and percentage) between our offer and the competitor's.\n\nReporting: Updated data (competitor price, stock status, price delta, and check date) is written back to Google Sheets.\n\nTech Stack: n8n, Google Sheets, Redis (caching), Firecrawl (scraping), AI Agent (unstructured data parsing).\n\nBusiness Value: Eliminates manual labor in market monitoring and provides real-time data for dynamic pricing strategies.",
+        "height": 736,
+        "width": 768
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        544,
+        528
+      ],
+      "typeVersion": 1,
+      "id": "c7e63b30-a09d-487f-a2dd-3334ac04ce08",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        1440
+      ],
+      "id": "d3bb7606-852b-48a7-b478-d1aa288a1c5d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.firecrawl.dev/v2/extract/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1008,
+        1440
+      ],
+      "id": "b8775045-1140-4069-aa6a-dfd9d4abb05f",
+      "name": "Get Extract Info",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/extract",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": [\n    \"https://docs.firecrawl.dev/\",\n    \"https://firecrawl.dev/\"\n  ],\n  \"prompt\": \"Extract Firecrawl's mission from the page.\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        784,
+        1440
+      ],
+      "id": "24902127-4ae9-4fc5-8630-eb3718c89817",
+      "name": "Extract (with Simple Prompt)",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## [Extract (with simple prompt)](https://docs.firecrawl.dev/features/extract)",
+        "height": 256,
+        "width": 736,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        512,
+        1376
+      ],
+      "id": "99fdf682-7321-42d1-b2ef-fb4b8f237259",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## [Extract (with fixed title)](https://docs.firecrawl.dev/features/extract)",
+        "height": 224,
+        "width": 736,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        512,
+        1648
+      ],
+      "id": "3652f307-308d-44d9-ac37-4a1b9ab8a957",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        1712
+      ],
+      "id": "0962cbef-ff56-4a0b-9969-16ec1ec5be2e",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.firecrawl.dev/v2/extract/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1008,
+        1712
+      ],
+      "id": "8afe325c-c106-4bfd-980e-ff8c71a2e4b8",
+      "name": "Get Extract Info1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        1696
+      ],
+      "id": "d5f5543e-076b-4fd6-a950-fd2209164aae",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"url\": \"https://firecrawl.dev\",\n  \"formats\": [\n    \"markdown\",\n    \"html\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1520,
+        1696
+      ],
+      "id": "dd622b67-b59d-4c36-9bf7-101484dec660",
+      "name": "Scrape",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## [Scrape](https://docs.firecrawl.dev/features/scrape) ",
+        "height": 224,
+        "width": 736,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        1632
+      ],
+      "id": "d384d02a-5bed-4f91-b09a-985207eb2458",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        1952
+      ],
+      "id": "cfa52b1e-5536-4c8b-86ad-6741d8863568",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"query\": \"machine learning transformers\",\n  \"categories\": [\n    \"research\"\n  ],\n  \"limit\": 10\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        768,
+        1952
+      ],
+      "id": "d9115ad6-95ad-4dbf-9e27-01bbe80587ad",
+      "name": "Search",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## [Search the Web](https://docs.firecrawl.dev/features/search)",
+        "height": 224,
+        "width": 736,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        512,
+        1888
+      ],
+      "id": "35011922-e80a-4070-9550-4a81d6c243a7",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        1952
+      ],
+      "id": "51e9a62c-e21d-46f1-9f1b-592f9e4d35c5",
+      "name": "Schedule Trigger4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/map",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "https://firecrawl.dev"
+            },
+            {
+              "name": "search",
+              "value": "docs"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1520,
+        1952
+      ],
+      "id": "bef67c89-829d-40a7-abcd-f7eec591cda6",
+      "name": "Maping",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 800,
+        "width": 1968
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        544,
+        528
+      ],
+      "id": "7e10ff62-7338-4001-be03-6785213eb20a",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "IyDKQgbEnUrtsjbp",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/IyDKQgbEnUrtsjbp",
+          "cachedResultName": "Lesson-18 Sub - Firecrawl – Getting LLM-Ready Web Data"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Link": "={{ $('Get row(s) in sheet').item.json['Competitor URL'] }}",
+            "Our Price": "={{ $('Get row(s) in sheet').item.json['Our Price ($)'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "Our Price",
+              "displayName": "Our Price",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2064,
+        704
+      ],
+      "id": "108659c6-fb50-4c2c-8391-fc90a5d37dad",
+      "name": "Firecrawl Sub Workflow"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        1328,
+        1440
+      ],
+      "id": "0eab4eae-5e1f-4bc5-8979-c886ec665345",
+      "name": "Schedule Trigger5"
+    },
+    {
+      "parameters": {
+        "content": "## [Crawl](https://docs.firecrawl.dev/features/crawl)",
+        "height": 224,
+        "width": 736,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        1376
+      ],
+      "id": "542f6b97-bb26-4b13-a482-32573f7e961b",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/crawl",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"url\": \"https://firecrawl.dev\",\n  \"limit\": 10\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1536,
+        1440
+      ],
+      "id": "85ce63d7-baf4-4b53-b716-437b9e5bedf4",
+      "name": "Crawl",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.firecrawl.dev/v2/crawl/{{ $json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1760,
+        1440
+      ],
+      "id": "21e1c790-26f9-4103-97ac-f34075855cbf",
+      "name": "Get Extract Info2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## [Mapping](https://docs.firecrawl.dev/features/map)",
+        "height": 224,
+        "width": 736,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        1888
+      ],
+      "id": "a9e0f0b5-d9e0-4bc3-baa9-2a906375b8c7",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/extract",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": [\n    \"https://docs.firecrawl.dev\"\n  ],\n  \"prompt\": \"Extract the page title\",\n  \"schema\": {\n    \"type\": \"object\",\n    \"properties\": {\n      \"title\": {\n        \"type\": \"string\"\n      }\n    },\n    \"required\": [\n      \"title\"\n    ]\n  },\n  \"scrapeOptions\": {\n    \"formats\": [\n      {\n        \"type\": \"json\",\n        \"prompt\": \"Extract\",\n        \"schema\": {\n          \"type\": \"object\"\n        }\n      }\n    ]\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        784,
+        1712
+      ],
+      "id": "c38def5d-9c10-4453-ae38-94a82dbc088b",
+      "name": "Extract (with fixed json)",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Lesson 18 - Firecrawl – Getting LLM-Ready Web Data in Make.com-n8n \n## (main workflow)\n## AI Automation\nSamantha Smith\n12/13/2025\n ",
+        "height": 192,
+        "width": 1952,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        544,
+        256
+      ],
+      "id": "dbaf2d74-a628-4566-9af1-b17c7c9fb55e",
+      "name": "Sticky Note10"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Firecrawl Sub Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Redis": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Extract (with Simple Prompt)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract (with Simple Prompt)": {
+      "main": [
+        [
+          {
+            "node": "Get Extract Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Extract (with fixed json)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "Scrape",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger4": {
+      "main": [
+        [
+          {
+            "node": "Maping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Firecrawl Sub Workflow": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger5": {
+      "main": [
+        [
+          {
+            "node": "Crawl",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crawl": {
+      "main": [
+        [
+          {
+            "node": "Get Extract Info2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract (with fixed json)": {
+      "main": [
+        [
+          {
+            "node": "Get Extract Info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "3a9a564f-a580-4bc2-ae35-98feddd0654f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6ce4fbac823eb845d81a61ee6274f32a2085c54aad44b909576ff986ae0f7fbf"
+  },
+  "id": "gn4axeoNN8mrvD4x",
+  "tags": [
+    {
+      "updatedAt": "2026-02-20T07:32:59.779Z",
+      "createdAt": "2026-02-20T07:32:59.779Z",
+      "id": "lWSijHaFvVCiFwT8",
+      "name": "Module-06"
+    },
+    {
+      "updatedAt": "2026-02-20T07:32:59.784Z",
+      "createdAt": "2026-02-20T07:32:59.784Z",
+      "id": "u4UzXhrtWlRbWk5i",
+      "name": "Lesson-18"
+    }
+  ]
+}

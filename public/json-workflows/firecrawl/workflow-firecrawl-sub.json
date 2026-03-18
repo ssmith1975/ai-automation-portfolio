@@ -1,0 +1,394 @@
+{
+  "name": "Lesson-18 Sub - Firecrawl – Getting LLM-Ready Web Data",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "Link"
+            },
+            {
+              "name": "Our Price",
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        80,
+        352
+      ],
+      "id": "2eb6fa3d-d358-4685-93b2-efab8f5a08db",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v2/scrape",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"url\": \"{{ $json.Link }}\",\n  \"formats\": [\"markdown\"]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        256,
+        352
+      ],
+      "id": "1df817f9-0bf1-4957-ac6c-ecfd45e2233f",
+      "name": "Firecrawl Scrape",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "wDoA6cLlBmPdlrCk",
+          "name": "firecrawl-header-auth-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "93ba7a53-dc9f-48e4-8c02-b231647b41ac",
+              "name": "Link",
+              "value": "={{ $('When Executed by Another Workflow').first().json.Link }}",
+              "type": "string"
+            },
+            {
+              "id": "f3f014e2-bc04-4c52-8f93-d6d54342e0f9",
+              "name": "price",
+              "value": "={{ $json.competitor_price }}",
+              "type": "number"
+            },
+            {
+              "id": "06a81643-a369-4ddb-917c-324548dd600f",
+              "name": "product_title",
+              "value": "={{ $json.product_title }}",
+              "type": "string"
+            },
+            {
+              "id": "1176d292-23ea-4ca8-9c5a-8308fe78d03c",
+              "name": "last_checked",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            },
+            {
+              "id": "322ec8d0-47b5-4471-9b31-4487b004556b",
+              "name": "our_price",
+              "value": "={{ $json.our_price }}",
+              "type": "number"
+            },
+            {
+              "id": "76bd9f12-8c2f-402f-a2fc-c2fffbe267f0",
+              "name": "price_difference",
+              "value": "={{ $json.price_difference }}",
+              "type": "number"
+            },
+            {
+              "id": "a8c83bf2-ac62-4aba-b300-cb06e9091340",
+              "name": "price_diff_percent",
+              "value": "={{ $json.price_diff_percent }}",
+              "type": "string"
+            },
+            {
+              "id": "307689ef-3aa7-4717-be9d-a74dc98090bd",
+              "name": "in_stock",
+              "value": "={{ $json.in_stock }}",
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1040,
+        352
+      ],
+      "id": "f57d0143-a38d-49e2-9105-428e289565d7",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        384,
+        512
+      ],
+      "id": "378da6ef-a5c4-4325-b1d2-a909c3d1fb67",
+      "name": "OpenRouter Chat Model",
+      "credentials": {
+        "openRouterApi": {
+          "id": "KsDXyHfIfPVXhYLw",
+          "name": "openrouter-api-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Markdown: {{ $json.data.markdown }}",
+        "options": {
+          "systemMessage": "=You are a product data extraction specialist. Analyze the provided markdown content from e-commerce product pages.\n\nAlways respond ONLY with valid JSON in this exact format:\n{\n  \"product_title\": \"string - full product name\",\n  \"competitor_price\": number - current price without currency symbol,\n  \"in_stock\": boolean - true if available for purchase\n}\n\nPRICE RULES:\n- Extract only the number (e.g., 199.99 not \"$199.99\")\n- Use the current/sale price, NOT the original \"Comp. Value\" price\n- If you see \"$199.99 Save $20 Comp. Value: $219.99\" - use 199.99\n\nIN_STOCK RULES:\n- TRUE if you see ANY of these:\n  * \"Add to Cart\" button\n  * \"Pickup Ready within X hour\"\n  * \"Get it Tomorrow\" or shipping date\n  * \"Only X left at your store\"\n  * \"Shipping available\"\n  \n- FALSE ONLY if you see:\n  * \"Out of Stock\"\n  * \"Sold Out\" \n  * \"Currently Unavailable for Purchase\"\n  * \"This item is not available\"\n\n- IGNORE \"Unavailable\" next to Save/Wishlist buttons - this is NOT about stock status\n- If pickup OR shipping options are shown with dates/times = TRUE\n\nDo not include any explanation or anything outside the json output such as '''json, only the JSON output."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        416,
+        352
+      ],
+      "id": "0e3bf8da-1aac-4af8-b882-ed51519ced4f",
+      "name": "Extraction Agent"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=price_cache:{{ $('When Executed by Another Workflow').item.json.Link }}",
+        "value": "={{ $json.output }}",
+        "expire": true,
+        "ttl": 21600
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        688,
+        352
+      ],
+      "id": "101704b2-04bb-4d59-8b60-e18609aef70b",
+      "name": "Save Data in Redis",
+      "credentials": {
+        "redis": {
+          "id": "DTel7RAIIZmszinX",
+          "name": "redis-api-ssmith1975.ai"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const cleanJSON = (raw) => \n  raw.replace(/^```json\\s*/i, \"\")  // remove leading ```json + newline/spaces\n  .replace(/```$/i, \"\")         // remove trailing ``` \n  .trim();\n\n// Get the data sent from the parent workflow (the one that called this subworkflow)\nconst rootData = $('When Executed by Another Workflow').first().json;\n\n// Extract and convert \"Our Price\" (which comes in as text) into a number\nconst ourPrice = parseFloat(rootData[\"Our Price\"]); \nconst cleanInput = cleanJSON($input.first().json.output);\n\n\n// Parse the AI agent’s JSON output (stored as a text string) into a real JavaScript object\nconst aiResponse = JSON.parse(cleanInput); //JSON.parse($json.output);\n\n// Extract and convert the competitor’s price into a number\nconst competitorPrice = parseFloat(aiResponse.competitor_price);\n\n// Calculate the price difference between your price and the competitor’s\nconst priceDiff = ourPrice - competitorPrice;\n\n// Calculate what percentage difference that is, rounded to one decimal place\nconst priceDiffPercent = ((priceDiff / ourPrice) * 100).toFixed(1);\n\n// Return a new JSON object containing all the useful information\n// n8n will pass this object to the next node in the workflow\nreturn {\n  json: {\n    // Product title returned from the AI agent\n    product_title: aiResponse.product_title,\n    // Whether the product is in stock (true/false or text)\n    in_stock: aiResponse.in_stock,\n    // Your own price\n    our_price: ourPrice,\n    // The competitor’s price\n    competitor_price: competitorPrice,\n    // The numeric price difference (in dollars)\n    price_difference: priceDiff,\n    // The percentage difference, shown as a string with %\n    price_diff_percent: `${priceDiffPercent}%`\n  }\n};\n\n\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        864,
+        352
+      ],
+      "id": "7b6cbeb7-8b28-43b4-bf6f-cac938b6e516",
+      "name": "Convert To Json Output"
+    },
+    {
+      "parameters": {
+        "jsCode": "const aiResponse = JSON.parse($json.output)\n\nreturn aiResponse"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        768
+      ],
+      "id": "b825082c-629b-43e6-b20c-560de84239be",
+      "name": "aiResponse Parsed"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rootData = $('When Executed by Another Workflow').first().json;\n\nreturn rootData"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        768
+      ],
+      "id": "b1c2dc21-1798-4d93-b139-c96635f63d1d",
+      "name": "rootData"
+    },
+    {
+      "parameters": {
+        "content": "## To Understand What We Type In the Code Node \"Convert To Json Output\" (Optional)\n\n- Make sure to setup both workflows properly\n- Run the workflow once first from the main workflow \n- Go into executions here \n- Open up a previous exection and click \"copy to editor\" to get the data \n- Pin the data from the \"when execute by another workflow\" node \n- Replace the \"Convert to Json Output\" with either of the code nodes below and run it once \n- You can now see what consists of \"aiResponse\" and \"rootData\" in the main code node",
+        "height": 288,
+        "width": 1104
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        672
+      ],
+      "id": "350ccf30-9fff-44b9-89fe-aa2e7cdada6e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Firecrawl Subworkflow\nThis workflow helps to retrieve data such as \"Link\" and \"Pricing\" from the main workflow, scrape the webpage using Firecrawl, process it via an AI agent, save it to Redis and return the data back to the mainworkflow. ",
+        "height": 416,
+        "width": 1280
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        240
+      ],
+      "id": "92ad0993-e290-457a-89f3-fac14415ab9f",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "",
+        "height": 192,
+        "width": 432
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        640,
+        736
+      ],
+      "id": "9a79fad9-ad8f-4f83-b3c5-ea2d8d36b43f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Lesson 18 - Firecrawl – Getting LLM-Ready Web Data in Make.com-n8n \n## (sub workflow)\n## AI Automation\nSamantha Smith\n12/13/2025\n",
+        "height": 208,
+        "width": 1280,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9409aeca-9228-48af-875f-103155225dc2",
+      "name": "Sticky Note10"
+    }
+  ],
+  "pinData": {
+    "When Executed by Another Workflow": [
+      {
+        "json": {
+          "Link": "https://www.walmart.com/ip/SAMSUNG-RF29BB8600QLAA-french-door-freestanding-refrigerator/2273871083?classType=REGULAR&from=/search",
+          "Our Price": 1849
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Firecrawl Scrape",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Firecrawl Scrape": {
+      "main": [
+        [
+          {
+            "node": "Extraction Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenRouter Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Extraction Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extraction Agent": {
+      "main": [
+        [
+          {
+            "node": "Save Data in Redis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Data in Redis": {
+      "main": [
+        [
+          {
+            "node": "Convert To Json Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert To Json Output": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "26dd84c4-a177-4efa-a329-d1d3946399ea",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "6ce4fbac823eb845d81a61ee6274f32a2085c54aad44b909576ff986ae0f7fbf"
+  },
+  "id": "IyDKQgbEnUrtsjbp",
+  "tags": [
+    {
+      "updatedAt": "2026-02-20T07:32:59.779Z",
+      "createdAt": "2026-02-20T07:32:59.779Z",
+      "id": "lWSijHaFvVCiFwT8",
+      "name": "Module-06"
+    },
+    {
+      "updatedAt": "2026-02-20T07:32:59.784Z",
+      "createdAt": "2026-02-20T07:32:59.784Z",
+      "id": "u4UzXhrtWlRbWk5i",
+      "name": "Lesson-18"
+    }
+  ]
+}
