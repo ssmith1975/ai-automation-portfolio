@@ -18,6 +18,7 @@ import {
   firecrawlWorkflowMainThumbnail,
   firecrawlWorkflowSubThumbnail
 } from "./use-cases/firecrawl";
+import { knowledgeBaseChatbotWorkflow, knowledgeBaseChatbotWorkflowThumbnail } from "./use-cases/knowledge-base-chatbot";
 
 export interface Workflow {
   id: string;
@@ -116,6 +117,20 @@ export const workflows = [
     date: "2026-03-18",
     category: "Firecrawl",
   },  
+    {
+    id: "knowledge-base-chatbot-workflow",
+    excerpt: "Workflow for Autonomous Knowledge Base Chatbot",    
+    description: `An automated workflow for an Autonomous Knowledge Base Chatbot designed to handle internal and customer inquiries with verified information. The workflow includes integration with a vector database (Qdrant) for semantic search, an LLM for generating responses based on retrieved data, and a communication interface (e.g., Slack) for user interactions.
+    
+    The workflow is designed to ensure that all responses are grounded in the company's internal knowledge base, eliminating hallucinations and providing accurate, up-to-date information to users. It also includes mechanisms for automated ingestion of new documents, data preparation, and context optimization to enhance retrieval accuracy and response quality.
+    `,
+    useCaseId: "knowledge-base-chatbot",
+    name: "Knowledge Base Chatbot Workflow",
+    json: knowledgeBaseChatbotWorkflow,
+    thumbnail: knowledgeBaseChatbotWorkflowThumbnail,
+    date: "2026-03-25",
+    category: "Knowledge Base Chatbot",
+  },
 ];  
 
 export const getWorkflowById = (id: string) => {

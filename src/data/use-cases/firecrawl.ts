@@ -28,14 +28,16 @@ Regular web pages contain significant "noise," such as HTML tags, advertising, a
 
 ## Proposed Workflow
 
-![Proposed Workflow for Firecrawl Scraping](${firecrawlProposedMapping})
-
 * **Data Source Integration:** The system automatically retrieves a list of competitor URLs and current internal prices from **Google Sheets**.  
 * **Optimization Layer:** The workflow checks **Redis** for cached data (6-hour TTL) to avoid redundant scraping and save API resources.  
 * **Clean Data Collection:** If not in cache, **Firecrawl** converts the target web page into clean, structured Markdown, removing all non-essential "noise".  
 * **Intelligent Extraction:** An **Extraction Agent** (AI) uses specific rules to identify the actual price (ignoring "compare at" values) and stock status.  
 * **Automated Analytics:** A script calculates the price difference in both currency and percentage relative to the internal price.  
 * **Automated Reporting:** Updated analytics, including the competitor price and check date, are written back to **Google Sheets** for real-time strategic use.
+
+
+![Proposed Workflow for Firecrawl Scraping](${firecrawlProposedMapping})
+
 
 ## Development Process
 
@@ -61,8 +63,8 @@ Regular web pages contain significant "noise," such as HTML tags, advertising, a
 
 ## KPI Comparisons
 
-* **Near 100% Reduction** in time spent on manual web data collection.  
-* **100% Consistency** in price extraction logic, eliminating human error in identifying sale prices.  
+* **Near 76% Reduction** in time spent on manual web data collection.  
+* **99% Consistency** in price extraction logic, eliminating human error in identifying sale prices.  
 * **Zero Missing Fields** in product monitoring reports due to structured AI extraction.
 
 `;

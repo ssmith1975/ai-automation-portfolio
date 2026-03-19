@@ -144,7 +144,7 @@ const UseCasePost = () => {
                   .filter(
                     (p) => p.id !== post.id && p.category === post.category,
                   )
-                  .slice(0, 2)
+                  //.slice(0, 2)
                   .map((relatedUseCase) => (
                     <Link
                       key={relatedUseCase.id}
