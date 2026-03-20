@@ -35,7 +35,7 @@ declare global {
 
   return (
     
-    <div className={`w-full transition-all duration-300 bg-sky-800 text-white ${isExpanded ? 'fixed inset-0 z-50 p-6 h-min-screen' : 'p-6'}`}>
+    <div className={`w-full transition-all duration-300 bg-gradient-to-tr bg-gradient-to-br from-sky-500 to-sky-900 text-white ${isExpanded ? 'fixed inset-0 z-50 p-6 h-min-screen' : 'p-6'}`}>
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-2xl font-light text-architectural">{title}</h3>
         <button

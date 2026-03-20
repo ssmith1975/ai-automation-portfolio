@@ -16,9 +16,12 @@ import {
   firecrawlWorkflowMain,
   firecrawlWorkflowSub,
   firecrawlWorkflowMainThumbnail,
-  firecrawlWorkflowSubThumbnail
+  firecrawlWorkflowSubThumbnail,
 } from "./use-cases/firecrawl";
-import { knowledgeBaseChatbotWorkflow, knowledgeBaseChatbotWorkflowThumbnail } from "./use-cases/knowledge-base-chatbot";
+import {
+  knowledgeBaseChatbotWorkflow,
+  knowledgeBaseChatbotWorkflowThumbnail,
+} from "./use-cases/knowledge-base-chatbot";
 
 export interface Workflow {
   id: string;
@@ -89,13 +92,11 @@ export const workflows = [
     date: "2026-03-7",
     category: "AI Voice Agent",
   },
-   {
+  {
     id: "firecrawl-main-workflow",
     excerpt: "Main workflow for Firecrawl competitor price monitoring",
-    description: `An automated workflow for handling inbound lead qualification using an AI voice agent. The workflow captures caller information, extracts key data points, categorizes leads based on predefined criteria, and syncs the data to a centralized database for sales team follow-up.
-      The workflow includes integration with Retell AI for voice interactions, n8n for automation, Supabase for database storage, and a dashboard interface for real-time lead monitoring.    
-      This workflow is designed to improve lead qualification efficiency, reduce manual data entry, and ensure timely follow-up on high-value prospects.
-    `,
+    description:
+      "An automated workflow for tracking competitor pricing and analyzing market positioning using Firecrawl for web scraping. The workflow retrieves competitor URLs from Google Sheets, checks Redis for cached data, uses Firecrawl to extract clean Markdown from web pages, and employs an AI agent to identify sale prices and stock status before updating a centralized dashboard.",
     useCaseId: "firecrawl",
     name: "Firecrawl Main Workflow",
     json: firecrawlWorkflowMain,
@@ -106,22 +107,19 @@ export const workflows = [
   {
     id: "firecrawl-sub-workflow",
     excerpt: "Sub-workflow for Firecrawl competitor price monitoring",
-    description: `An automated workflow for handling inbound lead qualification using an AI voice agent. The workflow captures caller information, extracts key data points, categorizes leads based on predefined criteria, and syncs the data to a centralized database for sales team follow-up.
-      The workflow includes integration with Retell AI for voice interactions, n8n for automation, Supabase for database storage, and a dashboard interface for real-time lead monitoring.    
-      This workflow is designed to improve lead qualification efficiency, reduce manual data entry, and ensure timely follow-up on high-value prospects.
-    `,
-    useCaseId: "firecrawl",     
+    description:
+      "A sub-workflow that handles the caching strategy for the Firecrawl competitor price monitoring system. The workflow checks Redis for cached data before initiating a web scrape with Firecrawl, and updates the cache with new data after scraping. This workflow is designed to optimize performance and reduce API costs by minimizing redundant web scraping operations.",
+    useCaseId: "firecrawl",
     name: "Firecrawl Sub Workflow",
     json: firecrawlWorkflowSub,
     thumbnail: firecrawlWorkflowSubThumbnail,
     date: "2026-03-18",
     category: "Firecrawl",
-  },  
-    {
+  },
+  {
     id: "knowledge-base-chatbot-workflow",
-    excerpt: "Workflow for Autonomous Knowledge Base Chatbot",    
+    excerpt: "Workflow for Autonomous Knowledge Base Chatbot",
     description: `An automated workflow for an Autonomous Knowledge Base Chatbot designed to handle internal and customer inquiries with verified information. The workflow includes integration with a vector database (Qdrant) for semantic search, an LLM for generating responses based on retrieved data, and a communication interface (e.g., Slack) for user interactions.
-    
     The workflow is designed to ensure that all responses are grounded in the company's internal knowledge base, eliminating hallucinations and providing accurate, up-to-date information to users. It also includes mechanisms for automated ingestion of new documents, data preparation, and context optimization to enhance retrieval accuracy and response quality.
     `,
     useCaseId: "knowledge-base-chatbot",
@@ -131,7 +129,7 @@ export const workflows = [
     date: "2026-03-25",
     category: "Knowledge Base Chatbot",
   },
-];  
+];
 
 export const getWorkflowById = (id: string) => {
   return workflows.find((workflow) => workflow.id === id);

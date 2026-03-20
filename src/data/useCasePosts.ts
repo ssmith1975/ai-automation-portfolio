@@ -65,5 +65,5 @@ export const useCasePosts: UseCasePost[] = [
     date: "2026-03-18",
     category: "USE CASES",
     image: knowledgeBaseChatbotCoverImage,
-  }
+  },
 ];

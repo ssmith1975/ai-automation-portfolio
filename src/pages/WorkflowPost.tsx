@@ -11,12 +11,10 @@ import { useState, useEffect } from "react";
 const WorkflowPost = () => {
   const location = useLocation();
   const { id } = useParams<{ id: string }>();
-  
-  
-  
+
   const [workflow, setWorkflow] = useState(null);
   const [json, setJson] = useState({});
-  
+
   let relatedWorkflows = [];
 
   useEffect(() => {
@@ -122,7 +120,6 @@ const WorkflowPost = () => {
                     <Link
                       key={workflow.id}
                       to={"/workflows/" + workflow.id}
-                      // onClick={() =>  window.location.reload()}
                       className="group"
                     >
                       <div className="w-full h-48 mb-4 overflow-hidden">
@@ -149,7 +146,7 @@ const WorkflowPost = () => {
                   ))}
               </div>
             </div>
-                        {/* Back Link */}
+            {/* Back Link */}
             <Link
               to="/workflows"
               className="inline-block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300 my-12"

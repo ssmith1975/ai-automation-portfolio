@@ -38,37 +38,6 @@ const Portfolio = () => {
           
           <div className="space-y-32">
             <UseCaseList useCaseList={useCasePosts} />
-            {/* {projects.map((project, index) => (
-              <div key={index} className="group">
-                <div className="relative overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-[70vh] object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                </div>
-                
-                <div className="mt-8 grid md:grid-cols-3 gap-8">
-                  <div>
-                    <h4 className="text-2xl font-light text-architectural mb-2">
-                      {project.title}
-                    </h4>
-                    <p className="text-minimal text-muted-foreground">
-                      <a href={project.url} className="hover:underline">
-                        Details
-                      </a>
-                    </p>
-                  </div>
-                  
-                  <div className="md:col-span-2">
-                    <p className="text-muted-foreground leading-relaxed">
-                      {project.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))} */}
             
           </div>
         </div>
