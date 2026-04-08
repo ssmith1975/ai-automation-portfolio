@@ -1,6 +1,7 @@
 
 import firecrawlCoverImage from "@/assets/firecrawl/firecrawl-800x600.jpg";
-import firecrawlProposedMapping from "@/assets/firecrawl/lesson-18-firecrawl-proposed-workflow.png"
+import firecrawlProposedMapping from "@/assets/firecrawl/lesson-18-firecrawl-proposed-workflow.png";
+import firecrawlGoogleSheet from "@/assets/firecrawl/lesson-18-firecrawl-google-sheet-data.png";
 import firecrawlWorkflowMainThumbnail from "@/assets/firecrawl/lesson-18-workflow-firecrawl-main.png";
 import firecrawlWorkflowSubThumbnail from "@/assets/firecrawl/lesson-18-workflow-firecrawl-sub.png"; 
 
@@ -37,6 +38,7 @@ Regular web pages contain significant "noise," such as HTML tags, advertising, a
 
 
 ![Proposed Workflow for Firecrawl Scraping](${firecrawlProposedMapping})
+![Google Sheet Integration Showing Crawl Results](${firecrawlGoogleSheet})
 
 
 ## Development Process

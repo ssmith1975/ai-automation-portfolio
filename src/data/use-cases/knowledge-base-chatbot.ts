@@ -2,6 +2,8 @@
 import knowledgeBaseChatbotCoverImage from '@/assets/knowledge-base-chatbot/knowledge-base-chatbot-800x600.jpg';
 import knowledgeBaseChatbotWorkflowThumbnail from "@/assets/knowledge-base-chatbot/lesson-19-workflow-knowledge-base-chatbot.png";
 import knowledgeBaseChatbotMapping from "@/assets/knowledge-base-chatbot/lesson-19-knowledge-base-chatbot-mapping.png"
+import knowledgeBaseChatbotSlack from "@/assets/knowledge-base-chatbot/lesson-19-knowledge-base-chatbot-slack.png"
+
 const knowledgeBaseChatbotWorkflow = '/json-workflows/knowledge-base-chatbot/workflow-knowledge-base-chatbot-qdrant.json'
 
 const knowledgeBaseChatbotContent = `
@@ -30,6 +32,7 @@ Standard Large Language Models (LLMs) lack access to specific, up-to-date intern
 * **Verified Response:** The final answer is sent back to the user in Slack, often including source references to ensure information verifiability.
 
 ![Proposed Workflow for Knowledge Base Chatbot](${knowledgeBaseChatbotMapping})
+![Interaction with Chatbot Using Slack](${knowledgeBaseChatbotSlack})
 
 
 ## Development Process

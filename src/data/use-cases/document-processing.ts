@@ -1,4 +1,14 @@
 import useCaseAsIsProcessMapping from "@/assets/document-processing/use-case-AS-IS-Process-Mapping.jpg";
+import useCaseFilloutBusiness from "@/assets/document-processing/document-processing-fillout-business.png";
+import useCaseFilloutReps from "@/assets/document-processing/document-processing-fillout-rep.png";
+import useCaseFilloutPackages from "@/assets/document-processing/document-processing-fillout-packages.png";
+import useCaseGoogleSheetDetails from "@/assets/document-processing/document-processing-google-sheet-details.png";
+import useCaseSlackNotification from "@/assets/document-processing/document-processing-slack.png";
+import useCaseEmailNotification from "@/assets/document-processing/document-processing-email.png";
+
+import useCaseEventLogging from "@/assets/document-processing/document-processing-event-logging.png";
+import useCaseErrorLogging from "@/assets/document-processing/document-processing-error-logging.png";
+
 import useCaseProposedMapping from "@/assets/document-processing/use-case-Proposed-Process-Mapping.jpg";
 import documentProcessingCoverImage from "@/assets/document-processing/document-processing-800x600.jpg"
 import documentProcessingThumbnail from "@/assets/document-processing/workflow-document-processing.png";
@@ -61,6 +71,37 @@ The proposed workflow helps to eliminate the pain points by implementing AI auto
 
 __Miro Link:__
 [Proposed Processg Mapping](https://miro.com/app/live-embed/uXjVGH3A3Jo=/?focusWidget=3458764658909560502&embedMode=view_only_without_ui&embedId=464995172269)
+
+### Input Example: 
+
+#### Fillout Web Form for Client Details
+![Document Processing Fillout Webform (Business Information)](${useCaseFilloutBusiness})
+![Document Processing Fillout Webform (Representative/Client)](${useCaseFilloutReps})
+![Document Processing Fillout Webform (Package Plans)](${useCaseFilloutPackages})
+
+__Fillout Link:__
+[Case 1: Document Processing - Client Details](https://forms.fillout.com/t/uXJmsHJAdGus)
+
+
+
+### Output Example: 
+
+#### Google Sheet with Client Details and Proposal Status
+![Document Processing Google Sheet Details (result from web form)](${useCaseGoogleSheetDetails})
+
+#### Slack Notification
+![Document Processing Slack Notification for No Plan Selected](${useCaseSlackNotification})
+
+#### Email Notification
+![Document Processing Email with Link to the Generated Proposal PDF](${useCaseEmailNotification})
+
+### Logging Examples
+
+#### Event Logging in AirTable
+![Document Processing Event Logging in AirTable](${useCaseEventLogging})
+
+#### Error Logging in AirTable
+![Document Processing Error Logging in AirTable](${useCaseErrorLogging})
 
 
 ## Development Process
