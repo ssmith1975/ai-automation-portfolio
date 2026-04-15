@@ -1,69 +1,69 @@
 import {
-  documentProcesingContent,
-  documentProcessingCoverImage,
-} from "./use-cases/document-processing";
+    documentProcesingContent,
+    documentProcessingCoverImage
+} from './use-cases/document-processing'
 
 import {
-  aiVoiceAgentContent,
-  aiVoiceAgentCoverImage,
-} from "./use-cases/ai-voice-agent";
+    aiVoiceAgentContent,
+    aiVoiceAgentCoverImage
+} from './use-cases/ai-voice-agent'
 
-import { firecrawlContent, firecrawlCoverImage } from "./use-cases/firecrawl";
+import { firecrawlContent, firecrawlCoverImage } from './use-cases/firecrawl'
 
 import {
-  knowledgeBaseChatbotContent,
-  knowledgeBaseChatbotCoverImage,
-} from "./use-cases/knowledge-base-chatbot";
+    knowledgeBaseChatbotContent,
+    knowledgeBaseChatbotCoverImage
+} from './use-cases/knowledge-base-chatbot'
 
 export interface UseCasePost {
-  id: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  date: string;
-  category: string;
-  image: string;
+    id: string
+    title: string
+    excerpt: string
+    content: string
+    date: string
+    category: string
+    image: string
 }
 
 export const useCasePosts: UseCasePost[] = [
-  {
-    id: "document-processing",
-    title: "Document Processing with Workflow Automations",
-    excerpt:
-      "Using workflow automations to reduce pain-points, improve procesing efficiency, and reducing costs",
-    content: documentProcesingContent,
-    date: "2026-02-09",
-    category: "USE CASES",
-    image: documentProcessingCoverImage,
-  },
-  {
-    id: "ai-voice-agent",
-    title: "AI Voice Agent for Customer Support",
-    excerpt:
-      "Implementing an AI voice agent to handle customer inquiries, provide support, and improve customer satisfaction.",
-    content: aiVoiceAgentContent,
-    date: "2026-03-05",
-    category: "USE CASES",
-    image: aiVoiceAgentCoverImage,
-  },
-  {
-    id: "firecrawl",
-    title: "Automated Competitor Price Monitoring & Intelligence",
-    excerpt:
-      "Implementing an automated system to track competitor pricing and analyze market positioning.",
-    content: firecrawlContent,
-    date: "2026-03-18",
-    category: "USE CASES",
-    image: firecrawlCoverImage,
-  },
-  {
-    id: "knowledge-base-chatbot",
-    title: "Autonomous Knowledge Base Chatbot",
-    excerpt:
-      "Implementing an autonomous chatbot to handle internal and customer inquiries with verified information.",
-    content: knowledgeBaseChatbotContent,
-    date: "2026-03-18",
-    category: "USE CASES",
-    image: knowledgeBaseChatbotCoverImage,
-  },
-];
+    {
+        id: 'document-processing',
+        title: 'Document Processing with Workflow Automations',
+        excerpt:
+            'Using workflow automations to reduce pain-points, improve procesing efficiency, and reducing costs',
+        content: documentProcesingContent,
+        date: '2026-02-09',
+        category: 'USE CASES',
+        image: documentProcessingCoverImage
+    },
+    {
+        id: 'ai-voice-agent',
+        title: 'AI Voice Agent for Customer Support',
+        excerpt:
+            'Implementing an AI voice agent to handle customer inquiries, provide support, and improve customer satisfaction.',
+        content: aiVoiceAgentContent,
+        date: '2026-03-05',
+        category: 'USE CASES',
+        image: aiVoiceAgentCoverImage
+    },
+    {
+        id: 'firecrawl',
+        title: 'Automated Competitor Price Monitoring & Intelligence',
+        excerpt:
+            'Implementing an automated system to track competitor pricing and analyze market positioning.',
+        content: firecrawlContent,
+        date: '2026-03-18',
+        category: 'USE CASES',
+        image: firecrawlCoverImage
+    },
+    {
+        id: 'knowledge-base-chatbot',
+        title: 'Autonomous Knowledge Base Chatbot',
+        excerpt:
+            'Implementing an autonomous chatbot to handle internal and customer inquiries with verified information.',
+        content: knowledgeBaseChatbotContent,
+        date: '2026-03-18',
+        category: 'USE CASES',
+        image: knowledgeBaseChatbotCoverImage
+    }
+]

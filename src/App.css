@@ -1,102 +1,99 @@
-
-@import "tailwindcss";
+@import 'tailwindcss';
 @theme {
-  --color-mint-500: oklch(0.72 0.11 178);
+    --color-mint-500: oklch(0.72 0.11 178);
 }
 
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-  cursor:pointer;
-
+    height: 6em;
+    padding: 1.5em;
+    will-change: filter;
+    transition: filter 300ms;
+    cursor: pointer;
 }
-
-
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+    filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+    filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-
-
 n8n-demo {
-	--n8n-frame-background-color: black !important;
-	--n8n-json-background-color: lightgray;
-	--n8n-copy-button-background-color: gray;
+    --n8n-frame-background-color: black !important;
+    --n8n-json-background-color: lightgray;
+    --n8n-copy-button-background-color: gray;
 }
 
 @keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+    a:nth-of-type(2) .logo {
+        animation: logo-spin infinite 20s linear;
+    }
 }
 
 .card {
-  padding: 2em;
+    padding: 2em;
 }
 
 .read-the-docs {
-  color: #888;
+    color: #888;
 }
-
 
 /* globals.css (or styles.css) */
 
 .popup-overlay {
-  /* Position and display the overlay */
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8); /* Dark, semi-transparent background */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+    /* Position and display the overlay */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(
+        0,
+        0,
+        0,
+        0.8
+    ); /* Dark, semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .popup-content {
-  /* Position and style the actual content area */
-  position: relative;
-  background: white;
-  padding: 20px;
-  max-width: 90%;
-  max-height: 90%;
-  overflow: auto;
-  border-radius: 5px;
+    /* Position and style the actual content area */
+    position: relative;
+    background: white;
+    padding: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto;
+    border-radius: 5px;
 }
 
 .close-button {
-  /* Style the close button */
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 24px;
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: white; /* Adjust color based on overlay background */
+    /* Style the close button */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: white; /* Adjust color based on overlay background */
 }
-

@@ -38,6 +38,9 @@ Traditional lead intake often relies on manual processing, which is prone to dat
 ![AI Voice Agent Website Dashboard](${aiVoiceAgentDashboard})
 ![AI Voice Agent Website List Display](${aiVoiceAgentList})
 
+__Sample Website:__
+[Leads Dashboard](https://v0-ai-v0-lesson-17-voice-agent-web.vercel.app/)
+
 
 ## Development Process
 

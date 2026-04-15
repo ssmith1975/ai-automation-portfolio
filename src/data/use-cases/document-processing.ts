@@ -107,14 +107,14 @@ __Fillout Link:__
 ## Development Process
  
 
-* Business Process Mapping \- Creating AS-IS workflow diagram  
-* Discovery Interview \- Gather requirements  
-* Solution Design Brief (SDB) \- Propose a solution  
+* Business Process Mapping - Creating AS-IS workflow diagram  
+* Discovery Interview - Gather requirements  
+* Solution Design Brief (SDB) - Propose a solution  
 * Workflow Design  
 * Solution Development  
 * Security Compliance  
 * Building Monitoring Dashboard  
-* Documentation \- design specs  
+* Documentation - design specs  
 * ROI and KPI  
 * Presentation Demo  
 * Handoff
@@ -123,16 +123,16 @@ __Fillout Link:__
 ## Technology Used
 
 
-* Fillout \- captures  client details  
-* n8n \- runs workflow automation for document processing, error handling, and logging  
-* PDF.co \- generates proposals from PDF templates  
-* Google Sheets \- stores client details, monitoring dashboards, and ROI calculations  
-* Google Drive \- stores PDF templates and generated proposals  
-* Google Docs \- stores documentations  
-* AirTable \- captures error data and logging  
-* ChatGPT (Open Router) \- classifies error types for logging  
-* Slack \- notifies Sales team  
-* Gmail \- sends email and proposal PDF to client
+* **Fillout**  - captures  client details  
+* **n8n** - runs workflow automation for document processing, error handling, and logging  
+* **PDF.co** - generates proposals from PDF templates  
+* **Google Sheets** - stores client details, monitoring dashboards, and ROI calculations  
+* **Google Drive** - stores PDF templates and generated proposals  
+* **Google Docs** - stores documentations  
+* **AirTable** - captures error data and logging  
+* **ChatGPT (Open Router)** - classifies error types for logging  
+* **Slack** - notifies Sales team  
+* **Gmail** - sends email and proposal PDF to client
 
 
 ## Benefits

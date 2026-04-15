@@ -14,7 +14,7 @@ const firecrawlWorkflowSub = '/json-workflows/firecrawl/workflow-firecrawl-sub.j
 const firecrawlContent = `
 ## Automated Competitor Price Monitoring & Intelligence
 
-The **Price Intelligence System** implements an automated pipeline for tracking competitor pricing and analyzing market positioning. The solution uses a modular architecture (Main \+ Sub-workflows) to retrieve product lists, scrape web data into LLM-ready formats using Firecrawl, and extract structured insights through an AI agent before updating a centralized dashboard.
+The **Price Intelligence System** implements an automated pipeline for tracking competitor pricing and analyzing market positioning. The solution uses a modular architecture (Main + Sub-workflows) to retrieve product lists, scrape web data into LLM-ready formats using Firecrawl, and extract structured insights through an AI agent before updating a centralized dashboard.
 
 ## Problem Statement
 
@@ -43,7 +43,7 @@ Regular web pages contain significant "noise," such as HTML tags, advertising, a
 
 ## Development Process
 
-* **Logic Definition:** Establishing extraction rules for sale prices and stock availability (e.g., "Add to Cart" \= True).  
+* **Logic Definition:** Establishing extraction rules for sale prices and stock availability (e.g., "Add to Cart" = True).  
 * **API Configuration:** Setting up **Firecrawl** methods (Scrape, Extract, and Map) to handle various website structures.  
 * **n8n Workflow Design:** Building a modular system with sub-workflows to ensure efficiency and scalability.  
 * **Caching Strategy:** Implementing **Redis** to optimize performance and reduce API costs.  

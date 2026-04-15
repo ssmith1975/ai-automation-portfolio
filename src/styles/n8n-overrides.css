@@ -1,15 +1,12 @@
 n8n-demo {
     --n8n-workflow-min-height: 40rem !important;
     --n8n-frame-background-color: black !important;
-	--n8n-json-background-color: lightgray;
-	--n8n-copy-button-background-color: gray;
+    --n8n-json-background-color: lightgray;
+    --n8n-copy-button-background-color: gray;
 }
 
 .n8n-expanded {
     n8n-demo {
-
-    --n8n-workflow-min-height: 50rem !important;
+        --n8n-workflow-min-height: 50rem !important;
     }
-}   
-
-
+}
