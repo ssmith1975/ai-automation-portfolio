@@ -172,28 +172,28 @@ const Navigation = () => {
                     <div className="container mx-auto px-6 py-6 space-y-4">
                         <Link
                             to="/"
-                            className="block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300"
+                            className="block text-minimal text-muted-foreground dark:text-sky-200 hover:text-foreground transition-colors duration-300"
                             aria-label="Home"
                         >
                             HOME
                         </Link>
                         <Link
-                            to="/services"
-                            className="block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300"
+                            to="/#services"
+                            className="block text-minimal text-muted-foreground dark:text-sky-200 hover:text-foreground transition-colors duration-300"
                             aria-label="Services"
                         >
                             SERVICES
                         </Link>
                         <Link
                             to="/use-cases"
-                            className="block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300"
+                            className="block text-minimal text-muted-foreground dark:text-sky-200 hover:text-foreground transition-colors duration-300"
                             aria-label="Use Cases"
                         >
                             USE CASES
                         </Link>
                         <Link
                             to="/workflows"
-                            className="block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300"
+                            className="block text-minimal text-muted-foreground dark:text-sky-200 hover:text-foreground transition-colors duration-300"
                             aria-label="Workflows"
                         >
                             WORKFLOWS
@@ -201,28 +201,28 @@ const Navigation = () => {
 
                         <Link
                             to="/about"
-                            className="block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300"
+                            className="block text-minimal text-muted-foreground dark:text-sky-200 hover:text-foreground transition-colors duration-300"
                             aria-label="About"
                         >
                             ABOUT
                         </Link>
-                        <Link
+                        {/* <Link
                             to="/blog"
                             className="block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300"
                             aria-label="Blog"
                         >
                             BLOG
-                        </Link>
+                        </Link> */}
                         <Link
                             to="/contact"
-                            className="block text-minimal text-muted-foreground hover:text-foreground transition-colors duration-300"
+                            className="block text-minimal text-muted-foreground dark:text-sky-200 hover:text-foreground transition-colors duration-300"
                             aria-label="Contact"
                         >
                             CONTACT
                         </Link>
 
                         {/* Mobile Theme Toggle */}
-                        <div className="pt-4 border-t border-border sm:pl-6">
+                        <div className="pt-4 border-t border-border pl-6">
                             <ThemeToggle />
                         </div>
                     </div>
